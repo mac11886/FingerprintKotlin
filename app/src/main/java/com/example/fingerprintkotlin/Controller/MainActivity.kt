@@ -90,8 +90,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
 
 
+
+    public fun onBegin() {
+        try {
+         var i = 0;
+         if (bstart) return
+            fingerprintSensor?.open(0)
+        }catch (e:Exception){
+            
+        }
     }
 
 }
