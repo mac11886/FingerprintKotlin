@@ -215,6 +215,7 @@ class MainActivity : AppCompatActivity() {
                             var ret = ZKFingerService.identify(p0,bufids,55,1)
                             if (ret >0){
                                 var strRes = String(bufids).split("\t")
+                                Toast.makeText(applicationContext,"CHECK5555555",Toast.LENGTH_SHORT).show()
                                 //identify
                             }else{
                                 //identify failed
