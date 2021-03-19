@@ -10,6 +10,7 @@ import android.hardware.usb.UsbManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -52,10 +53,17 @@ class MainActivity : AppCompatActivity() {
 
         // set ID of Activity
         var helloText = findViewById<TextView>(R.id.helloText)
+        textTest = findViewById(R.id.textTest)
         var beginBtn = findViewById<Button>(R.id.beginBtn)
         var enrollBtn = findViewById<Button>(R.id.enrollBtn)
         var stopBtn = findViewById<Button>(R.id.stopBtn)
         var verifyBtn =findViewById<Button>(R.id.verifyBtn)
+
+        textTest.setOnClickListener(View.OnClickListener {
+            var intent = Intent(this, FirstManageActivity::class.java)
+
+            startActivity(intent)
+        })
 
 
         helloText.setOnClickListener {
