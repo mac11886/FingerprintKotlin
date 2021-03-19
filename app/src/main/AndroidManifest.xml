@@ -11,6 +11,7 @@
         android:resizeable="true"
         android:smallScreens="true"
         android:xlargeScreens="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinV10">
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".FirstManageActivity"></activity>
+        <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginAppActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -29,6 +31,7 @@
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
+
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
