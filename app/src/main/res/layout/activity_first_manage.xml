@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FirstManageActivity">
+    tools:context=".FirstManageActivity"
+    android:layout_margin="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,18 +21,19 @@
             android:weightSum="3">
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:id="@+id/company1"
+                android:layout_width="226dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:layout_weight="2.5"
-                android:text="TextView" />
+                android:text="Company Name"
+                android:textSize="25dp" />
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:text="แก้ไขชื่อบริษัท" />
 
         </LinearLayout>
 
@@ -43,26 +45,27 @@
             android:weightSum="3">
 
             <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:id="@+id/details1"
+                android:layout_width="153dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:layout_weight="2.5"
-                android:text="TextView" />
+                android:text="2 แผนก  10 ตำแหน่ง  35 คน"
+                android:textSize="15dp" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:text="เพิ่มแผนก" />
 
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/sectorList"
             android:layout_width="match_parent"
-            android:layout_height="512dp"
-            android:layout_marginTop="50dp"
+            android:layout_height="546dp"
+            android:layout_marginTop="25dp"
             android:layout_weight="1" />
 
     </LinearLayout>
