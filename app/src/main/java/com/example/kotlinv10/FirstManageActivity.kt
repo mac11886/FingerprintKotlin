@@ -1,5 +1,6 @@
 package com.example.kotlinv10
 
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +19,7 @@ class FirstManageActivity : AppCompatActivity() {
         var sectors = arrayListOf<String>("Development", "Development", "Development", "Development", "Development", "Development", "Development")
         var numJob = arrayListOf<Int>(4, 5, 6, 7, 2, 4, 9)
 
-        var sectorAdapter = SectorAdapter(sectors, numJob, this, true)
+        var sectorAdapter = SectorAdapter(sectors, numJob, this, true, hashMapOf())
         recyclerView.adapter = sectorAdapter
 
 

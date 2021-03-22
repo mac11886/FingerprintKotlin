@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinV10">
-        <activity android:name=".FirstManageActivity"></activity>
+        <activity android:name=".SecondManageActivity"></activity>
+        <activity android:name=".FirstManageActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginAppActivity" />
         <activity android:name=".MainActivity">
