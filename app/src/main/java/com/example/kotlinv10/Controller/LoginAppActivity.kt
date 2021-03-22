@@ -1,4 +1,4 @@
-package com.example.kotlinv10
+package com.example.kotlinv10.Controller
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import com.example.kotlinv10.R
 
 class LoginAppActivity : AppCompatActivity() {
 
@@ -25,7 +26,7 @@ class LoginAppActivity : AppCompatActivity() {
         signupText = findViewById(R.id.signupText)
 
         signupText.setOnClickListener {
-            val intent = Intent(this,SignUpActivity::class.java)
+            val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
 

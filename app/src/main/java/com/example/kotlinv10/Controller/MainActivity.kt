@@ -1,4 +1,4 @@
-package com.example.kotlinv10
+package com.example.kotlinv10.Controller
 
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -13,6 +13,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.kotlinv10.R
 import com.zkteco.android.biometric.core.device.ParameterHelper
 import com.zkteco.android.biometric.core.device.TransportType
 import com.zkteco.android.biometric.core.utils.LogHelper
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
 
         helloText.setOnClickListener {
-            var intent = Intent(this,LoginAppActivity::class.java)
+            var intent = Intent(this, LoginAppActivity::class.java)
             startActivity(intent)
         }
         beginBtn.setOnClickListener {

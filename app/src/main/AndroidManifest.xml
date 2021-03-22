@@ -18,9 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinV10">
-        <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".LoginAppActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Controller.SignUpActivity"></activity>
+        <activity android:name=".Controller.LoginAppActivity" />
+        <activity android:name=".Controller.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
