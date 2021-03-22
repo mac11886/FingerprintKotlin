@@ -51,4 +51,9 @@ dependencies {
     //fingerprint important
     implementation files('libs\\zkandroidcore.jar')
     implementation files('libs\\zkandroidfpreader.jar')
+
+    implementation 'com.iceteck.silicompressorr:silicompressor:2.2.1'
+
+    //circle imageProfile
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }
