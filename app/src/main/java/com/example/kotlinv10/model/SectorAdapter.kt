@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinv10.R
 
-class SectorAdapter(sectors: List<String>, numJobs: List<Int>, context: Context) : RecyclerView.Adapter<SectorAdapter.ViewHolder>() {
+class SectorAdapter(sectors: List<String>, numJobs: List<Int>, context: Context, isFirst: Boolean) : RecyclerView.Adapter<SectorAdapter.ViewHolder>() {
 
     var sectors = sectors
     var numJobs = numJobs
