@@ -13,9 +13,7 @@
         android:id="@+id/card1"
         android:layout_height="150dp"
         android:backgroundTint="#c4c4c4"
-        app:cardCornerRadius="20dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="10dp">
+        app:cardCornerRadius="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

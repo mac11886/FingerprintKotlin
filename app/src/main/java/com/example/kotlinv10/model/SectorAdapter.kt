@@ -15,6 +15,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinv10.R
 import com.example.kotlinv10.SecondManageActivity
+import com.example.kotlinv10.ThirdManageActivity
 
 class SectorAdapter(
     sectors: List<String>,
@@ -72,6 +73,11 @@ class SectorAdapter(
                     break
                 }
                 holder.imageViews[i].setImageResource(R.drawable.ic_profile)
+            }
+            holder.cardView.setOnClickListener{
+                Intent(context, ThirdManageActivity::class.java).also {
+                    intent -> context.startActivity(intent)
+                }
             }
         }
     }
