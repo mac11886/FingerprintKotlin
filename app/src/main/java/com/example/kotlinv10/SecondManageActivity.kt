@@ -2,21 +2,26 @@ package com.example.kotlinv10
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinv10.model.SectorAdapter
 
 class SecondManageActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
+    lateinit var textView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_manage)
 
         recyclerView = findViewById(R.id.sectorList)
+        textView = findViewById(R.id.company1)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        var linearLayout = findViewById<LinearLayout>(R.id.linear1)
 
         var sectors = arrayListOf<String>(
             "Developer",
@@ -53,6 +58,7 @@ class SecondManageActivity : AppCompatActivity() {
 //        for(a in images.keys){
 //            println(images[a]?.size)
 //        }
+
 
         var sectorAdapter = SectorAdapter(sectors, numJob, this, false, images)
         recyclerView.adapter = sectorAdapter
