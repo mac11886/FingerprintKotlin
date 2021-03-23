@@ -56,4 +56,6 @@ dependencies {
 
     //circle imageProfile
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //circle button
+    compile 'com.github.markushi:circlebutton:1.1'
 }

@@ -7,12 +7,14 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
-import androidx.appcompat.app.AppCompatActivity
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinv10.R
 import com.zkteco.android.biometric.core.device.ParameterHelper
 import com.zkteco.android.biometric.core.device.TransportType
@@ -23,6 +25,8 @@ import com.zkteco.android.biometric.module.fingerprintreader.FingerprintSensor
 import com.zkteco.android.biometric.module.fingerprintreader.FingprintFactory
 import com.zkteco.android.biometric.module.fingerprintreader.ZKFingerService
 import com.zkteco.android.biometric.module.fingerprintreader.exception.FingerprintException
+import java.util.*
+import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,7 +46,13 @@ class MainActivity : AppCompatActivity() {
     private val ACTION_USB_PERMISSION = "com.zkteco.silkiddemo.USB_PERMISSION"
 
 
-    lateinit var textTest : TextView
+    lateinit var textTest: TextView
+    lateinit var timeText: TextView
+    lateinit var dateText: TextView
+    lateinit var helloText: TextView
+    lateinit var checkInBtn: Button
+    lateinit var checkOutBtn: Button
+    lateinit var nameText: TextView
 
 
 
@@ -50,13 +60,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-        // set ID of Activity
-        var helloText = findViewById<TextView>(R.id.helloText)
-        var beginBtn = findViewById<Button>(R.id.beginBtn)
-        var enrollBtn = findViewById<Button>(R.id.enrollBtn)
-        var stopBtn = findViewById<Button>(R.id.stopBtn)
-        var verifyBtn =findViewById<Button>(R.id.verifyBtn)
+        initUi()
+        setTimeAndDate()
 
 
         helloText.setOnClickListener {
@@ -65,26 +70,46 @@ class MainActivity : AppCompatActivity() {
             Intent(this, EditProfileActivity::class.java).also { intent ->
                 startActivity(intent)
             }
-
-
-        }
-        beginBtn.setOnClickListener {
-            onBegin()
-        }
-        enrollBtn.setOnClickListener {
-            onBnEnroll()
-        }
-        stopBtn.setOnClickListener {
-            onBnStop()
-        }
-        verifyBtn.setOnClickListener {
-            onBnVerify()
         }
 
+        //fingerprint
         startFingerprintSensor()
         initDevice()
+
+        checkInBtn.setOnClickListener {
+            onBegin()
+        }
+        checkOutBtn.setOnClickListener {
+            onBegin()
+        }
+
     }
 
+    fun setTimeAndDate() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            SimpleDateFormat("dd MMM yyyy", Locale.US).format(Date()).also { dateText.text = it }
+        }
+
+        val someHandler = Handler(mainLooper)
+        someHandler.postDelayed(object : Runnable {
+            override fun run() {
+                timeText.setText(java.text.SimpleDateFormat("HH:mm", Locale.US).format(Date()))
+                someHandler.postDelayed(this, 1000)
+            }
+        }, 10)
+
+    }
+
+
+    fun initUi() {
+        // set ID of Activity
+        helloText = findViewById(R.id.helloText)
+        checkInBtn = findViewById(R.id.checkInButton)
+        checkOutBtn = findViewById(R.id.checkOutButton)
+        timeText = findViewById(R.id.timeTextView)
+        dateText = findViewById(R.id.dateTextView)
+
+    }
 
     private val mUsbReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -117,19 +142,20 @@ class MainActivity : AppCompatActivity() {
                 fingerprintParams as MutableMap<String, Any>?
             )
     }
-    fun initDevice(){
-        val musbManager : UsbManager = this.getSystemService(Context.USB_SERVICE) as UsbManager
-        var filter : IntentFilter = IntentFilter()
+
+    fun initDevice() {
+        val musbManager: UsbManager = this.getSystemService(Context.USB_SERVICE) as UsbManager
+        var filter: IntentFilter = IntentFilter()
         filter.addAction(ACTION_USB_PERMISSION)
         filter.addAction(UsbManager.ACTION_USB_ACCESSORY_ATTACHED)
 
-        val context : Context = this.applicationContext
+        val context: Context = this.applicationContext
         context.registerReceiver(mUsbReceiver, filter)
 
 
-        for(device : UsbDevice in musbManager.deviceList.values){
-            if (device.vendorId == VID && device.productId == PID){
-                if (!musbManager.hasPermission(device)){
+        for (device: UsbDevice in musbManager.deviceList.values) {
+            if (device.vendorId == VID && device.productId == PID) {
+                if (!musbManager.hasPermission(device)) {
                     val intent = Intent(ACTION_USB_PERMISSION)
                     val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
                     musbManager.requestPermission(device, pendingIntent)
@@ -144,21 +170,22 @@ class MainActivity : AppCompatActivity() {
             var i = 0;
             if (bstart)
                 return
-            Log.e("ERROR","--------------------------------------------------------------------" )
+            Log.e("ERROR", "--------------------------------------------------------------------")
             try {
                 fingerprintSensor!!.open(0)
-            }catch (eF : FingerprintException){
-                Log.e("ERROR","" + eF.message)
+            } catch (eF: FingerprintException) {
+                Log.e("ERROR", "" + eF.message)
             }
-            val  listenter : FingerprintCaptureListener = object :FingerprintCaptureListener {
+            val listenter: FingerprintCaptureListener = object : FingerprintCaptureListener {
                 override fun captureOK(p0: ByteArray?) {
                     val imageWidth = fingerprintSensor!!.imageWidth
                     val imageHeight = fingerprintSensor!!.imageHeight
                     runOnUiThread {
-                        if ( p0 !=null){
+                        if (p0 != null) {
                             ToolUtils.outputHexString(p0)
                             LogHelper.i("width=$imageWidth\nHeight=$imageHeight")
-                            var bitmapImageFingerprint = ToolUtils.renderCroppedGreyScaleBitmap(p0,imageWidth,imageHeight)
+                            var bitmapImageFingerprint =
+                                ToolUtils.renderCroppedGreyScaleBitmap(p0, imageWidth, imageHeight)
                             //set image
 
                         }
@@ -168,13 +195,13 @@ class MainActivity : AppCompatActivity() {
                 override fun captureError(p0: FingerprintException?) {
 
                     runOnUiThread {
-                        LogHelper.e("capture Error " +p0?.errorCode +"\nmessage" + p0?.message)
+                        LogHelper.e("capture Error " + p0?.errorCode + "\nmessage" + p0?.message)
                     }
                 }
 
                 override fun extractOK(p0: ByteArray?) {
                     runOnUiThread(Runnable {
-                        if(isRegister) {
+                        if (isRegister) {
                             var bufids = ByteArray(256)
                             var ret = ZKFingerService.identify(p0, bufids, 55, 1)
                             if (ret > 0) {
@@ -205,7 +232,7 @@ class MainActivity : AppCompatActivity() {
                                     )).also { ret = it }
                                 ) {
                                     ZKFingerService.save(regTemp, "0" + uid++)
-                                    System.arraycopy(regTemp, 0, lastRegTemp, 0,ret)
+                                    System.arraycopy(regTemp, 0, lastRegTemp, 0, ret)
 
                                     //enroll success
                                 } else {
@@ -216,14 +243,18 @@ class MainActivity : AppCompatActivity() {
                                 // press finger in time bla bla bla
                             }
 
-                        }else{
+                        } else {
                             var bufids = ByteArray(256)
-                            var ret = ZKFingerService.identify(p0,bufids,55,1)
-                            if (ret >0){
+                            var ret = ZKFingerService.identify(p0, bufids, 55, 1)
+                            if (ret > 0) {
                                 var strRes = String(bufids).split("\t")
-                                Toast.makeText(applicationContext,"CHECK5555555",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    applicationContext,
+                                    "CHECK5555555",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                                 //identify
-                            }else{
+                            } else {
                                 //identify failed
                             }
                             //Base 64 Template
@@ -239,48 +270,48 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-            fingerprintSensor!!.setFingerprintCaptureListener(0,listenter)
+            fingerprintSensor!!.setFingerprintCaptureListener(0, listenter)
             fingerprintSensor!!.startCapture(0)
             bstart = true
-            Toast.makeText(this,"CHECK",Toast.LENGTH_SHORT).show()
-        }catch (e: Exception){
-            Toast.makeText(this,"CHECK12",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "CHECK", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(this, "CHECK12", Toast.LENGTH_SHORT).show()
         }
     }
+
     @Throws(FingerprintException::class)
-    fun onBnStop(){
-        try{
-            if(bstart){
+    fun onBnStop() {
+        try {
+            if (bstart) {
                 //stop capture
                 fingerprintSensor?.startCapture(0)
                 bstart = false
                 fingerprintSensor?.close(0)
-                Toast.makeText(this,"CLOSE SCANNER",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "CLOSE SCANNER", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "ALREADY CLOSE SCANNER", Toast.LENGTH_SHORT).show()
             }
-            else{
-                Toast.makeText(this,"ALREADY CLOSE SCANNER",Toast.LENGTH_SHORT).show()
-            }
-        }catch (e :FingerprintException ){
-            Toast.makeText(this,"STOP FAILED",Toast.LENGTH_SHORT).show()
+        } catch (e: FingerprintException) {
+            Toast.makeText(this, "STOP FAILED", Toast.LENGTH_SHORT).show()
         }
     }
 
 
-    fun onBnEnroll(){
-        if (bstart){
+    fun onBnEnroll() {
+        if (bstart) {
             isRegister = true
-            enrollidx =0
-            Toast.makeText(this,"Press 3 time enroll",Toast.LENGTH_SHORT).show()
-        }else{
-            Toast.makeText(this,"Begin First",Toast.LENGTH_SHORT).show()
+            enrollidx = 0
+            Toast.makeText(this, "Press 3 time enroll", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Begin First", Toast.LENGTH_SHORT).show()
         }
     }
 
-    fun onBnVerify(){
-        if (bstart){
+    fun onBnVerify() {
+        if (bstart) {
             isRegister = false
             enrollidx = 0
-        }else {
+        } else {
             Toast.makeText(this, "Begin first", Toast.LENGTH_SHORT).show()
         }
 
