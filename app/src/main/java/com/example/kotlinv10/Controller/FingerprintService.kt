@@ -5,12 +5,15 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Bitmap
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
+import com.example.kotlinv10.R
 import com.zkteco.android.biometric.core.device.ParameterHelper
 import com.zkteco.android.biometric.core.device.TransportType
 import com.zkteco.android.biometric.core.utils.LogHelper
@@ -29,10 +32,7 @@ class FingerprintService(context: Context) {
     private var bstart = false
     private var isRegister = false
     private var uid = 1
-    private val regtemparray = Array(3) {
-        ByteArray(2048)
-    } //register template buffer array
-
+    private val regtemparray = Array(3) { ByteArray(2048) } //register template buffer array
     private var enrollidx = 0
     private val lastRegTemp = ByteArray(2048)
     private var fingerprintSensor: FingerprintSensor? = null
@@ -82,7 +82,6 @@ class FingerprintService(context: Context) {
          context
         context.registerReceiver(mUsbReceiver, filter)
 
-
         for(device : UsbDevice in musbManager.deviceList.values){
             if (device.vendorId == VID && device.productId == PID){
                 if (!musbManager.hasPermission(device)){
@@ -114,8 +113,12 @@ class FingerprintService(context: Context) {
                         if ( p0 !=null){
                             ToolUtils.outputHexString(p0)
                             LogHelper.i("width=$imageWidth\nHeight=$imageHeight")
-                            var bitmapImageFingerprint = ToolUtils.renderCroppedGreyScaleBitmap(p0,imageWidth,imageHeight)
-                            //set image
+                          var   bitmapImageFingerprint = ToolUtils.renderCroppedGreyScaleBitmap(p0,imageWidth,imageHeight)
+
+//                            var intent = Intent(context,FingerprintActivity::class.java)
+
+
+                        //set image
 
                         }
                     }
@@ -223,9 +226,12 @@ class FingerprintService(context: Context) {
 
 
     fun onBnEnroll(){
+
+        onBegin()
         if (bstart){
             isRegister = true
             enrollidx =0
+
             Toast.makeText(context,"Press 3 time enroll", Toast.LENGTH_SHORT).show()
         }else{
             Toast.makeText(context,"Begin First", Toast.LENGTH_SHORT).show()
