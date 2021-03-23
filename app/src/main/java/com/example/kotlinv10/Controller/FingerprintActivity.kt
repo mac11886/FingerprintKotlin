@@ -72,7 +72,7 @@ class FingerprintActivity : AppCompatActivity() {
         checkSecond = findViewById(R.id.checkSecond)
         checkThird = findViewById(R.id.checkThrid)
         showText = findViewById(R.id.showText)
-        checkFirst.setImageResource(R.drawable.ic_check)
+
 
     }
 
@@ -229,16 +229,16 @@ class FingerprintActivity : AppCompatActivity() {
                                 isRegister = false
                             } else {
                                 // press finger in time bla bla bla
-                                if (enrollidx == 1) {
+                                if (enrollidx == 0) {
                                     // checkFinger
 //                                    imageFirstFinger.setImageBitmap(bitmapImageFingerprint)
                                     checkFirst.setImageResource(R.drawable.ic_check)
                                 }
-                                if (enrollidx == 2) {
+                                if (enrollidx == 1) {
                                     checkFirst.setImageResource(R.drawable.ic_check)
 //                                    imageSecondFinger.setImageBitmap(bitmapImageFingerprint)
                                 }
-
+            
 //                                showText.text = "วางนิ้วอีก " + (3 - enrollidx) + "ครั้ง"
 
                             }
