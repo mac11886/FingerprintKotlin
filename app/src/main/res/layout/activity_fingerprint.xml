@@ -6,6 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".Controller.FingerprintActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/nameOfFinger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="First Finger"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+
+            android:textSize="35dp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -14,6 +32,7 @@
         android:layout_margin="5dp"
         android:orientation="horizontal"
         android:weightSum="3"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
         tools:layout_editor_absoluteX="5dp">
 
         <LinearLayout
@@ -27,6 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginRight="10dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ImageView
@@ -34,6 +54,7 @@
                 android:layout_width="60dp"
                 android:layout_height="54dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 tools:layout_editor_absoluteX="47dp"
                 tools:layout_editor_absoluteY="437dp" />
@@ -50,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginRight="10dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ImageView
@@ -57,6 +79,7 @@
                 android:layout_width="60dp"
                 android:layout_height="54dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 tools:layout_editor_absoluteX="162dp"
                 tools:layout_editor_absoluteY="383dp" />
@@ -81,6 +104,7 @@
                 android:layout_height="54dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:layout_marginTop="5dp"
                 tools:layout_editor_absoluteX="335dp"
                 tools:layout_editor_absoluteY="437dp" />
         </LinearLayout>

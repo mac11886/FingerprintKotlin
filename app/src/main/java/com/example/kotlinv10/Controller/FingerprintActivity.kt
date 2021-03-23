@@ -241,7 +241,6 @@ class FingerprintActivity : AppCompatActivity() {
 //                                    imageSecondFinger.setImageBitmap(bitmapImageFingerprint)
                                 }
                                 enrollidx++
-
 //                                showText.text = "วางนิ้วอีก " + (3 - enrollidx) + "ครั้ง"
 
                             }
