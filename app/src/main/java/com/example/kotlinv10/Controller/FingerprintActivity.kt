@@ -67,7 +67,11 @@ class FingerprintActivity : AppCompatActivity() {
     }
 
     private fun initUi() {
-        imageFingers = listOf(findViewById(R.id.imageFirstFinger), findViewById(R.id.imageSecondFinger), findViewById(R.id.imageThirdFinger))
+        imageFingers = listOf(
+            findViewById(R.id.imageFirstFinger),
+            findViewById(R.id.imageSecondFinger),
+            findViewById(R.id.imageThirdFinger)
+        )
         checkFirst = findViewById(R.id.checkFirst)
         checkSecond = findViewById(R.id.checkSecond)
         checkThird = findViewById(R.id.checkThrid)
@@ -148,7 +152,8 @@ class FingerprintActivity : AppCompatActivity() {
                         if (p0 != null) {
                             ToolUtils.outputHexString(p0)
                             LogHelper.i("width=$imageWidth\nHeight=$imageHeight")
-                            bitmapImageFingerprint = ToolUtils.renderCroppedGreyScaleBitmap(p0, imageWidth, imageHeight)
+                            bitmapImageFingerprint =
+                                ToolUtils.renderCroppedGreyScaleBitmap(p0, imageWidth, imageHeight)
 
                             imageFingers[enrollidx].setImageBitmap(bitmapImageFingerprint)
 //                            var intent = Intent(context,FingerprintActivity::class.java)
@@ -168,7 +173,7 @@ class FingerprintActivity : AppCompatActivity() {
                 }
 
                 override fun extractOK(p0: ByteArray?) {
-                    kotlin.run {
+                    runOnUiThread {
                         if (isRegister) {
                             var bufids = ByteArray(256)
                             var ret = ZKFingerService.identify(p0, bufids, 55, 1)
@@ -177,14 +182,10 @@ class FingerprintActivity : AppCompatActivity() {
                                 isRegister = false
                                 // the finger is already enroll -> cancel
                                 enrollidx = 0
-                                return
+                                return@runOnUiThread
                             }
 
-                            if (enrollidx > 0 && ZKFingerService.verify(
-                                    regtemparray[enrollidx - 1],
-                                    p0
-                                ) <= 0
-                            ) {
+                            if (enrollidx > 0 && ZKFingerService.verify(regtemparray[enrollidx - 1], p0) <= 0) {
                                 // please press the same finger 3 times for the enrollment
                                 if (enrollidx == 1) {
                                     Toast.makeText(
@@ -203,11 +204,11 @@ class FingerprintActivity : AppCompatActivity() {
                                 }
 
                                 showText.text = "แสกนให้เหมือนกันทั้ง 3 ครั้ง"
-                                return
+                                return@runOnUiThread
                             }
                             System.arraycopy(p0, 0, regtemparray[enrollidx], 0, 2048)
-                            enrollidx++
-                            if (enrollidx == 3) {
+//                            enrollidx++
+                            if (enrollidx == 2) {
                                 var regTemp = ByteArray(2048)
                                 if (0 < (ZKFingerService.merge(
                                         regtemparray[0],
@@ -222,6 +223,7 @@ class FingerprintActivity : AppCompatActivity() {
                                         Base64.encodeToString(regTemp, 0, ret, Base64.NO_WRAP)
                                     //enroll success
                                     showText.text = "ลงทะเบียนสำเร็จ"
+                                    checkThird.setImageResource(R.drawable.ic_check)
                                 } else {
                                     showText.text = "ลงทะเบียนไม่สำเร็จ"
                                     //enroll failed
@@ -235,10 +237,11 @@ class FingerprintActivity : AppCompatActivity() {
                                     checkFirst.setImageResource(R.drawable.ic_check)
                                 }
                                 if (enrollidx == 1) {
-                                    checkFirst.setImageResource(R.drawable.ic_check)
+                                    checkSecond.setImageResource(R.drawable.ic_check)
 //                                    imageSecondFinger.setImageBitmap(bitmapImageFingerprint)
                                 }
-            
+                                enrollidx++
+
 //                                showText.text = "วางนิ้วอีก " + (3 - enrollidx) + "ครั้ง"
 
                             }
