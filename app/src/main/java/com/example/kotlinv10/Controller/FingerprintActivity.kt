@@ -238,7 +238,7 @@ class FingerprintActivity : AppCompatActivity() {
                                     checkFirst.setImageResource(R.drawable.ic_check)
 //                                    imageSecondFinger.setImageBitmap(bitmapImageFingerprint)
                                 }
-            
+
 //                                showText.text = "วางนิ้วอีก " + (3 - enrollidx) + "ครั้ง"
 
                             }
