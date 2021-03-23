@@ -9,15 +9,15 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="2">
+        android:weightSum="3">
 
         <LinearLayout
             android:id="@+id/linear1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+
             android:orientation="horizontal"
             android:weightSum="3">
 
@@ -41,7 +41,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+
             android:orientation="horizontal"
             android:weightSum="3">
 
@@ -60,15 +60,15 @@
                 android:layout_height="wrap_content"
                 android:text="เพิ่มแผนก" />
 
-        </LinearLayout>
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
+        </LinearLayout> <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sectorList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-         />
+        android:layout_height="fill_parent"
+
+       />
+
+    </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
