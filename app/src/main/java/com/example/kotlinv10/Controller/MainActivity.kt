@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.kotlinv10.R
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private var fingerprintSensor: FingerprintSensor? = null
     private val i = -1
     private val ACTION_USB_PERMISSION = "com.zkteco.silkiddemo.USB_PERMISSION"
+    lateinit var imageView: ImageView
 
 
     lateinit var textTest : TextView
@@ -57,6 +59,8 @@ class MainActivity : AppCompatActivity() {
         var enrollBtn = findViewById<Button>(R.id.enrollBtn)
         var stopBtn = findViewById<Button>(R.id.stopBtn)
         var verifyBtn =findViewById<Button>(R.id.verifyBtn)
+        imageView = findViewById(R.id.imageView)
+//        imageView.setImageResource(R.drawable.ic_attendance)
 
 
         helloText.setOnClickListener {
@@ -160,6 +164,7 @@ class MainActivity : AppCompatActivity() {
                             LogHelper.i("width=$imageWidth\nHeight=$imageHeight")
                             var bitmapImageFingerprint = ToolUtils.renderCroppedGreyScaleBitmap(p0,imageWidth,imageHeight)
                             //set image
+                            imageView.setImageResource(R.drawable.ic_attendance)
 
                         }
                     }

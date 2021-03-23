@@ -31,9 +31,7 @@ class FingerprintActivity : AppCompatActivity() {
 
     lateinit var beginBtn: Button
     lateinit var enrollBtn: Button
-    lateinit var imageFirstFinger: ImageView
-    lateinit var imageSecondFinger: ImageView
-    lateinit var imageThirdFinger: ImageView
+    lateinit var imageFingers: List<ImageView>
     lateinit var showText: TextView
     lateinit var checkFirst: ImageView
     lateinit var checkSecond: ImageView
@@ -69,9 +67,7 @@ class FingerprintActivity : AppCompatActivity() {
     }
 
     private fun initUi() {
-        imageFirstFinger = findViewById(R.id.imageFirstFinger)
-        imageSecondFinger = findViewById(R.id.imageSecondFinger)
-        imageThirdFinger = findViewById(R.id.imageThirdFinger)
+        imageFingers = listOf(findViewById(R.id.imageFirstFinger), findViewById(R.id.imageSecondFinger), findViewById(R.id.imageThirdFinger))
         checkFirst = findViewById(R.id.checkFirst)
         checkSecond = findViewById(R.id.checkSecond)
         checkThird = findViewById(R.id.checkThrid)
@@ -144,16 +140,17 @@ class FingerprintActivity : AppCompatActivity() {
             } catch (eF: FingerprintException) {
                 Log.e("ERROR", "" + eF.message)
             }
-            val listenter: FingerprintCaptureListener = object : FingerprintCaptureListener {
+            val listener: FingerprintCaptureListener = object : FingerprintCaptureListener {
                 override fun captureOK(p0: ByteArray?) {
                     val imageWidth = fingerprintSensor!!.imageWidth
                     val imageHeight = fingerprintSensor!!.imageHeight
-                    kotlin.run {
+                    runOnUiThread {
                         if (p0 != null) {
                             ToolUtils.outputHexString(p0)
                             LogHelper.i("width=$imageWidth\nHeight=$imageHeight")
                             bitmapImageFingerprint = ToolUtils.renderCroppedGreyScaleBitmap(p0, imageWidth, imageHeight)
 
+                            imageFingers[enrollidx].setImageBitmap(bitmapImageFingerprint)
 //                            var intent = Intent(context,FingerprintActivity::class.java)
 
 
@@ -242,7 +239,7 @@ class FingerprintActivity : AppCompatActivity() {
 //                                    imageSecondFinger.setImageBitmap(bitmapImageFingerprint)
                                 }
 
-                                showText.text = "วางนิ้วอีก " + (3 - enrollidx) + "ครั้ง"
+//                                showText.text = "วางนิ้วอีก " + (3 - enrollidx) + "ครั้ง"
 
                             }
                         } else {
@@ -272,7 +269,7 @@ class FingerprintActivity : AppCompatActivity() {
 
             }
 
-            fingerprintSensor!!.setFingerprintCaptureListener(0, listenter)
+            fingerprintSensor!!.setFingerprintCaptureListener(0, listener)
             fingerprintSensor!!.startCapture(0)
             bstart = true
             showText.text = "วางนิ้วบนที่สแกน"
