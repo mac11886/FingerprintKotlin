@@ -4,8 +4,11 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.icu.text.SimpleDateFormat
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -154,7 +157,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    fun setPic() {
+    private fun setPic() {
         // Get the dimensions of the View
         val targetW: Int = imageProfile.width
         val targetH: Int = imageProfile.height
@@ -174,9 +177,50 @@ class EditProfileActivity : AppCompatActivity() {
 //        bmOptions.inSampleSize = scaleFactor
         bmOptions.inPurgeable = true
         val bitmap = BitmapFactory.decodeFile(currentPhotoPath, bmOptions)
-        imageProfile.setImageBitmap(bitmap)
-    }
 
+        imageProfile.setImageBitmap(bitmap)
+        //---------------------------------------------------------------------------------------------------
+        Log.e("messsage","current"+ currentPhotoPath)
+//        val ei = ExifInterface(currentPhotoPath)
+//        val orientation = ei.getAttributeInt(
+//            ExifInterface.TAG_ORIENTATION,
+//            ExifInterface.ORIENTATION_UNDEFINED
+//        )
+//        Log.e("check", "orientation$orientation")
+//        var rotatedBitmapTest: Bitmap?
+//        when(orientation){
+//            ExifInterface.ORIENTATION_ROTATE_90 -> {
+//                rotatedBitmapTest = rotateImage(bitmap, 90F)
+//                Log.e("check", "bitmap$rotatedBitmapTest")
+//                imageProfile.setImageBitmap(rotatedBitmapTest)
+//            }
+//            ExifInterface.ORIENTATION_ROTATE_180 -> {
+//                rotatedBitmapTest = rotateImage(bitmap, 180F)
+//                Log.e("check", "bitmap$rotatedBitmapTest")
+//                imageProfile.setImageBitmap(rotatedBitmapTest)
+//            }
+//            ExifInterface.ORIENTATION_ROTATE_270 -> {
+//                rotatedBitmapTest = rotateImage(bitmap, 270F)
+//                Log.e("check", "bitmap$rotatedBitmapTest")
+//                imageProfile.setImageBitmap(rotatedBitmapTest)
+//            }
+//
+//            ExifInterface.ORIENTATION_NORMAL -> {
+//                rotatedBitmapTest = bitmap
+//                Log.e("check", "bitmap$rotatedBitmapTest")
+//                imageProfile.setImageBitmap(rotatedBitmapTest)
+//            }
+//        }
+
+    }
+    fun rotateImage(source: Bitmap, angle: Float): Bitmap? {
+        val matrix = Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(
+            source, 0, 0, source.width, source.height,
+            matrix, true
+        )
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     fun selectImage(context: Context) {
@@ -205,7 +249,7 @@ class EditProfileActivity : AppCompatActivity() {
                     Log.e("check ", "0")
                     addToGallery()
                     try {
-                        Log.e("check ", "00")
+                        Log.e("check ", "image take show")
                         setPic()
                     } catch (e: IOException) {
                         e.printStackTrace()
