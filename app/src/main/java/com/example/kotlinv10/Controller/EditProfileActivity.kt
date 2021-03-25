@@ -85,13 +85,15 @@ class EditProfileActivity : AppCompatActivity() {
                 // Create the File where the photo should go
                 val photoFile: File? = try {
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                        Log.i("EditProfileAC","11111111111111111")
                         createImageFile()
+
                     } else {
-                        TODO("VERSION.SDK_INT < N")
+                        Log.i("EditProfileAC","11111111111111111")
                     }
                 } catch (ex: IOException) {
                     // Error occurred while creating the File
-
+                    Log.i("EditProfileAC", ex.toString())
                     null
                 }
                 // Continue only if the File was successfully created
