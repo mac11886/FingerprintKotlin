@@ -46,12 +46,6 @@
         <activity android:name=".Controller.SignUpActivity" />
         <activity android:name=".Controller.LoginAppActivity" />
         <activity android:name=".Controller.MainActivity">
-        <activity android:name=".ThirdManageActivity"></activity>
-        <activity android:name=".SecondManageActivity" />
-        <activity android:name=".FirstManageActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginAppActivity" />
-        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,6 +59,11 @@
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
+        <activity android:name=".ThirdManageActivity"></activity>
+        <activity android:name=".SecondManageActivity" />
+        <activity android:name=".FirstManageActivity" />
+        <activity android:name=".Controller.SignUpActivity" />
+        <activity android:name=".Controller.LoginAppActivity" />
     </application>
 
 </manifest>
