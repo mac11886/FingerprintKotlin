@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kotlinv10.FirstManageActivity
 import com.example.kotlinv10.R
 import com.zkteco.android.biometric.core.device.ParameterHelper
 import com.zkteco.android.biometric.core.device.TransportType
@@ -67,12 +68,17 @@ class MainActivity : AppCompatActivity() {
 
         // set ID of Activity
         var helloText = findViewById<TextView>(R.id.helloText)
+        var testText = findViewById<TextView>(R.id.textTest)
 //        var beginBtn = findViewById<Button>(R.id.beginBtn)
 //        var enrollBtn = findViewById<Button>(R.id.enrollBtn)
 //        var stopBtn = findViewById<Button>(R.id.stopBtn)
 //        var verifyBtn =findViewById<Button>(R.id.verifyBtn)
         imageView = findViewById(R.id.imageView)
 //        imageView.setImageResource(R.drawable.ic_attendance)
+
+        testText.setOnClickListener {
+            Intent(this, FirstManageActivity::class.java).also { intent -> startActivity(intent) }
+        }
 
         helloText.setOnClickListener {
 //            var intent = Intent(this, LoginAppActivity::class.java)
