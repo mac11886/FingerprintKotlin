@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 //        imageView.setImageResource(R.drawable.ic_attendance)
 
         testText.setOnClickListener {
-            Intent(this, FirstManageActivity::class.java).also { intent -> startActivity(intent) }
+            Intent(this, SignUpActivity::class.java).also { intent -> startActivity(intent) }
         }
 
         helloText.setOnClickListener {

@@ -2,11 +2,18 @@ package com.example.kotlinv10.Controller
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinv10.R
+import com.example.kotlinv10.Service.ApiService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class SignUpActivity : AppCompatActivity() {
     lateinit var companyText: EditText
@@ -16,6 +23,10 @@ class SignUpActivity : AppCompatActivity() {
     lateinit var secondPasswordText: EditText
     lateinit var signUp: Button
     lateinit var loginText: TextView
+    val apiService = Retrofit.Builder()
+        .baseUrl("https://ksta.co/api/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build().create(ApiService::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,13 +68,28 @@ class SignUpActivity : AppCompatActivity() {
         var name: String = nameText.text.toString()
         var email: String = emailText.text.toString()
         var password: String = passwordText.text.toString()
-        var rePassword: String = secondPasswordText.text.toString()
 
-        var intent = Intent(this, MainActivity::class.java)
-        var bundle: Bundle = Bundle()
-        bundle.putStringArray("signUp", arrayOf(company, name, email, password, rePassword))
-        intent.putExtras(bundle)
-        startActivity(intent)
+        val call = apiService.signUp(name, email, password, company)
+
+        call.enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                Log.e("Succuess", response.body().toString())
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.e("Fail", "Fuck")
+            }
+
+        })
+
+
+
+//        var intent = Intent(this, MainActivity::class.java)
+
+//        var bundle: Bundle = Bundle()
+//        bundle.putStringArray("signUp", arrayOf(company, name, email, password, rePassword))
+//        intent.putExtras(bundle)
+//        startActivity(intent)
     }
 
 
@@ -90,10 +116,9 @@ class SignUpActivity : AppCompatActivity() {
             nameText.error = null
         }
 
-        if (email.isNullOrEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email)
-                .matches()
+        if (email.isNullOrEmpty()
         ) {
-            emailText.error = "กรอก E-mail ไม่ถูกต้อง"
+            emailText.error = "กรอก username ไม่ถูกต้อง"
             valid = false
         } else {
             emailText.error = null
