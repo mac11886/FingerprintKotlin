@@ -67,10 +67,10 @@ class MainActivity : AppCompatActivity() {
 
         // set ID of Activity
         var helloText = findViewById<TextView>(R.id.helloText)
-        var beginBtn = findViewById<Button>(R.id.beginBtn)
-        var enrollBtn = findViewById<Button>(R.id.enrollBtn)
-        var stopBtn = findViewById<Button>(R.id.stopBtn)
-        var verifyBtn =findViewById<Button>(R.id.verifyBtn)
+//        var beginBtn = findViewById<Button>(R.id.beginBtn)
+//        var enrollBtn = findViewById<Button>(R.id.enrollBtn)
+//        var stopBtn = findViewById<Button>(R.id.stopBtn)
+//        var verifyBtn =findViewById<Button>(R.id.verifyBtn)
         imageView = findViewById(R.id.imageView)
 //        imageView.setImageResource(R.drawable.ic_attendance)
 
