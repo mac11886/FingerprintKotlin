@@ -22,6 +22,7 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -45,6 +46,12 @@
         <activity android:name=".Controller.SignUpActivity" />
         <activity android:name=".Controller.LoginAppActivity" />
         <activity android:name=".Controller.MainActivity">
+        <activity android:name=".ThirdManageActivity"></activity>
+        <activity android:name=".SecondManageActivity" />
+        <activity android:name=".FirstManageActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".LoginAppActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
