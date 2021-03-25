@@ -97,4 +97,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_logout" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/avatars" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

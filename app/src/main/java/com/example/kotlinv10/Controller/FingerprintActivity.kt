@@ -31,9 +31,7 @@ class FingerprintActivity : AppCompatActivity() {
 
     lateinit var beginBtn: Button
     lateinit var enrollBtn: Button
-    lateinit var imageFirstFinger: ImageView
-    lateinit var imageSecondFinger: ImageView
-    lateinit var imageThirdFinger: ImageView
+    lateinit var imageFingers: List<ImageView>
     lateinit var showText: TextView
     lateinit var checkFirst: ImageView
     lateinit var checkSecond: ImageView
@@ -69,14 +67,16 @@ class FingerprintActivity : AppCompatActivity() {
     }
 
     private fun initUi() {
-        imageFirstFinger = findViewById(R.id.imageFirstFinger)
-        imageSecondFinger = findViewById(R.id.imageSecondFinger)
-        imageThirdFinger = findViewById(R.id.imageThirdFinger)
+        imageFingers = listOf(
+            findViewById(R.id.imageFirstFinger),
+            findViewById(R.id.imageSecondFinger),
+            findViewById(R.id.imageThirdFinger)
+        )
         checkFirst = findViewById(R.id.checkFirst)
         checkSecond = findViewById(R.id.checkSecond)
         checkThird = findViewById(R.id.checkThrid)
         showText = findViewById(R.id.showText)
-        checkFirst.setImageResource(R.drawable.ic_check)
+
 
     }
 
@@ -144,16 +144,18 @@ class FingerprintActivity : AppCompatActivity() {
             } catch (eF: FingerprintException) {
                 Log.e("ERROR", "" + eF.message)
             }
-            val listenter: FingerprintCaptureListener = object : FingerprintCaptureListener {
+            val listener: FingerprintCaptureListener = object : FingerprintCaptureListener {
                 override fun captureOK(p0: ByteArray?) {
                     val imageWidth = fingerprintSensor!!.imageWidth
                     val imageHeight = fingerprintSensor!!.imageHeight
-                    kotlin.run {
+                    runOnUiThread {
                         if (p0 != null) {
                             ToolUtils.outputHexString(p0)
                             LogHelper.i("width=$imageWidth\nHeight=$imageHeight")
-                            bitmapImageFingerprint = ToolUtils.renderCroppedGreyScaleBitmap(p0, imageWidth, imageHeight)
+                            bitmapImageFingerprint =
+                                ToolUtils.renderCroppedGreyScaleBitmap(p0, imageWidth, imageHeight)
 
+                            imageFingers[enrollidx].setImageBitmap(bitmapImageFingerprint)
 //                            var intent = Intent(context,FingerprintActivity::class.java)
 
 
@@ -171,7 +173,7 @@ class FingerprintActivity : AppCompatActivity() {
                 }
 
                 override fun extractOK(p0: ByteArray?) {
-                    kotlin.run {
+                    runOnUiThread {
                         if (isRegister) {
                             var bufids = ByteArray(256)
                             var ret = ZKFingerService.identify(p0, bufids, 55, 1)
@@ -180,14 +182,10 @@ class FingerprintActivity : AppCompatActivity() {
                                 isRegister = false
                                 // the finger is already enroll -> cancel
                                 enrollidx = 0
-                                return
+                                return@runOnUiThread
                             }
 
-                            if (enrollidx > 0 && ZKFingerService.verify(
-                                    regtemparray[enrollidx - 1],
-                                    p0
-                                ) <= 0
-                            ) {
+                            if (enrollidx > 0 && ZKFingerService.verify(regtemparray[enrollidx - 1], p0) <= 0) {
                                 // please press the same finger 3 times for the enrollment
                                 if (enrollidx == 1) {
                                     Toast.makeText(
@@ -206,11 +204,11 @@ class FingerprintActivity : AppCompatActivity() {
                                 }
 
                                 showText.text = "แสกนให้เหมือนกันทั้ง 3 ครั้ง"
-                                return
+                                return@runOnUiThread
                             }
                             System.arraycopy(p0, 0, regtemparray[enrollidx], 0, 2048)
-                            enrollidx++
-                            if (enrollidx == 3) {
+//                            enrollidx++
+                            if (enrollidx == 2) {
                                 var regTemp = ByteArray(2048)
                                 if (0 < (ZKFingerService.merge(
                                         regtemparray[0],
@@ -225,6 +223,7 @@ class FingerprintActivity : AppCompatActivity() {
                                         Base64.encodeToString(regTemp, 0, ret, Base64.NO_WRAP)
                                     //enroll success
                                     showText.text = "ลงทะเบียนสำเร็จ"
+                                    checkThird.setImageResource(R.drawable.ic_check)
                                 } else {
                                     showText.text = "ลงทะเบียนไม่สำเร็จ"
                                     //enroll failed
@@ -232,17 +231,17 @@ class FingerprintActivity : AppCompatActivity() {
                                 isRegister = false
                             } else {
                                 // press finger in time bla bla bla
-                                if (enrollidx == 1) {
+                                if (enrollidx == 0) {
                                     // checkFinger
 //                                    imageFirstFinger.setImageBitmap(bitmapImageFingerprint)
                                     checkFirst.setImageResource(R.drawable.ic_check)
                                 }
-                                if (enrollidx == 2) {
-                                    checkFirst.setImageResource(R.drawable.ic_check)
+                                if (enrollidx == 1) {
+                                    checkSecond.setImageResource(R.drawable.ic_check)
 //                                    imageSecondFinger.setImageBitmap(bitmapImageFingerprint)
                                 }
-
-                                showText.text = "วางนิ้วอีก " + (3 - enrollidx) + "ครั้ง"
+                                enrollidx++
+//                                showText.text = "วางนิ้วอีก " + (3 - enrollidx) + "ครั้ง"
 
                             }
                         } else {
@@ -272,7 +271,7 @@ class FingerprintActivity : AppCompatActivity() {
 
             }
 
-            fingerprintSensor!!.setFingerprintCaptureListener(0, listenter)
+            fingerprintSensor!!.setFingerprintCaptureListener(0, listener)
             fingerprintSensor!!.startCapture(0)
             bstart = true
             showText.text = "วางนิ้วบนที่สแกน"

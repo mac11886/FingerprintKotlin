@@ -3,6 +3,7 @@ package com.example.kotlinv10.Controller
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.BitmapFactory
 import android.icu.text.SimpleDateFormat
 import android.net.Uri
@@ -13,7 +14,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -50,13 +50,15 @@ class EditProfileActivity : AppCompatActivity() {
             selectImage(this)
         }
         firstFinger.setOnClickListener{
-            Intent(this,FingerprintActivity::class.java).also {
-                nextIntent -> startActivity(nextIntent)
+            Intent(this, FingerprintActivity::class.java).also { nextIntent -> startActivity(
+                nextIntent
+            )
             }}
 
         secondFinger.setOnClickListener{
-            Intent(this,FingerprintActivity::class.java).also {
-                    nextIntent -> startActivity(nextIntent)
+            Intent(this, FingerprintActivity::class.java).also { nextIntent -> startActivity(
+                nextIntent
+            )
             }}
 
     }
@@ -97,6 +99,10 @@ class EditProfileActivity : AppCompatActivity() {
                         it
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    takePictureIntent.putExtra(
+                        MediaStore.EXTRA_SCREEN_ORIENTATION,
+                        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                    )
                     startActivityForResult(takePictureIntent, 0)
                 }
             }
