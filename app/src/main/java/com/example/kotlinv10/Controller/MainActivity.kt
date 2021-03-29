@@ -19,6 +19,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinv10.R
+import com.example.kotlinv10.model.AllData
+import com.example.kotlinv10.model.ApiObject
 import com.example.kotlinv10.model.DataHolder
 import com.zkteco.android.biometric.core.device.ParameterHelper
 import com.zkteco.android.biometric.core.device.TransportType
@@ -29,6 +31,9 @@ import com.zkteco.android.biometric.module.fingerprintreader.FingerprintSensor
 import com.zkteco.android.biometric.module.fingerprintreader.FingprintFactory
 import com.zkteco.android.biometric.module.fingerprintreader.ZKFingerService
 import com.zkteco.android.biometric.module.fingerprintreader.exception.FingerprintException
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -103,11 +108,25 @@ class MainActivity : AppCompatActivity() {
         }
         loadDialog()
 
+        val call = ApiObject.apiObject.getAllData(1)
+
+        call.enqueue(object : Callback<AllData> {
+            override fun onResponse(call: Call<AllData>, response: Response<AllData>) {
+                DataHolder.allData = response.body()
+                val data = DataHolder.allData
+                if (data != null) {
+                    Log.e("test", data.dataUser[0].id.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<AllData>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
         val someHandler = Handler(mainLooper)
         someHandler.postDelayed({ dialog.dismiss() }, 3000)
-
-        DataHolder.str = "hello"
-        Toast.makeText(this, DataHolder.str, Toast.LENGTH_SHORT).show()
 
     }
 
