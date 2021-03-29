@@ -1,10 +1,11 @@
-package com.example.kotlinv10
+package com.example.kotlinv10.Controller
 
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlinv10.R
 import com.example.kotlinv10.model.UserAdapter
 
 class ThirdManageActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.example.kotlinv10
+package com.example.kotlinv10.Controller
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlinv10.R
 import com.example.kotlinv10.model.SectorAdapter
 
 class SecondManageActivity : AppCompatActivity() {

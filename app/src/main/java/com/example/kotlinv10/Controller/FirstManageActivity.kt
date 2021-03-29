@@ -1,10 +1,10 @@
-package com.example.kotlinv10
+package com.example.kotlinv10.Controller
 
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlinv10.R
 import com.example.kotlinv10.model.SectorAdapter
 
 class FirstManageActivity : AppCompatActivity() {

@@ -1,26 +1,20 @@
 package com.example.kotlinv10.model
 
-import android.app.Activity
-import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.opengl.Visibility
 import android.os.Build
-import android.util.Log
-import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinv10.R
-import com.example.kotlinv10.SecondManageActivity
-import com.example.kotlinv10.ThirdManageActivity
+import com.example.kotlinv10.Controller.SecondManageActivity
+import com.example.kotlinv10.Controller.ThirdManageActivity
 
 class SectorAdapter(
     sectors: List<String>,

@@ -59,9 +59,10 @@
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
-        <activity android:name=".ThirdManageActivity"></activity>
-        <activity android:name=".SecondManageActivity" />
-        <activity android:name=".FirstManageActivity" />
+
+        <activity android:name=".Controller.ThirdManageActivity"></activity>
+        <activity android:name=".Controller.SecondManageActivity" />
+        <activity android:name=".Controller.FirstManageActivity" />
         <activity android:name=".Controller.SignUpActivity" />
         <activity android:name=".Controller.LoginAppActivity" />
     </application>
