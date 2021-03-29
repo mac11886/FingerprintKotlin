@@ -19,6 +19,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinv10.R
+import com.example.kotlinv10.model.DataHolder
 import com.zkteco.android.biometric.core.device.ParameterHelper
 import com.zkteco.android.biometric.core.device.TransportType
 import com.zkteco.android.biometric.core.utils.LogHelper
@@ -104,6 +105,9 @@ class MainActivity : AppCompatActivity() {
 
         val someHandler = Handler(mainLooper)
         someHandler.postDelayed({ dialog.dismiss() }, 3000)
+
+        DataHolder.str = "hello"
+        Toast.makeText(this, DataHolder.str, Toast.LENGTH_SHORT).show()
 
     }
 

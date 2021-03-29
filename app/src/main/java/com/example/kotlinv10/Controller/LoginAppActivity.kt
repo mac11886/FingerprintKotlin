@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.example.kotlinv10.R
+import com.example.kotlinv10.model.DataHolder
 
 class LoginAppActivity : AppCompatActivity() {
 
@@ -29,6 +31,7 @@ class LoginAppActivity : AppCompatActivity() {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
+
 
     }
 }
