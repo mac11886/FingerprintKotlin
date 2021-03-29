@@ -1,5 +1,6 @@
 package com.example.kotlinv10.Controller
 
+import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -11,12 +12,12 @@ import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.kotlinv10.FirstManageActivity
 import com.example.kotlinv10.R
 import com.zkteco.android.biometric.core.device.ParameterHelper
 import com.zkteco.android.biometric.core.device.TransportType
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private val VID = 6997
     private val PID = 288
     private var bstart = false
+    lateinit var dialog: AlertDialog
     private var isRegister = false
     private var uid = 1
     private val regtemparray = Array(3) {
@@ -98,7 +100,22 @@ class MainActivity : AppCompatActivity() {
         checkOutBtn.setOnClickListener {
             onBegin()
         }
+        loadDialog()
 
+        val someHandler = Handler(mainLooper)
+        someHandler.postDelayed({ dialog.dismiss() }, 3000)
+
+    }
+
+    fun loadDialog(){
+        val activity = this
+        val builder = AlertDialog.Builder(activity)
+        val inflater: LayoutInflater = activity.layoutInflater
+        builder.setView(inflater.inflate(R.layout.progress_dialog_view, null))
+        builder.setCancelable(true)
+
+        dialog = builder.create()
+        dialog.show()
     }
 
     fun setTimeAndDate() {
