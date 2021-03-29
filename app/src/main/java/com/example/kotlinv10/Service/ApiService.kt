@@ -17,4 +17,8 @@ interface ApiService {
 
     @GET("getAllData/{company_id}")
     fun getAllData(@Path("company_id") company: Int): Call<AllData>
+
+    @POST("login")
+    fun login(@Query("username") username: String,
+              @Query("password") password: String,): Call<String>
 }

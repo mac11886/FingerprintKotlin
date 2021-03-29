@@ -113,14 +113,9 @@ class MainActivity : AppCompatActivity() {
         call.enqueue(object : Callback<AllData> {
             override fun onResponse(call: Call<AllData>, response: Response<AllData>) {
                 DataHolder.allData = response.body()
-                val data = DataHolder.allData
-                if (data != null) {
-                    Log.e("test", data.dataUser[0].id.toString())
-                }
             }
 
             override fun onFailure(call: Call<AllData>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -135,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(activity)
         val inflater: LayoutInflater = activity.layoutInflater
         builder.setView(inflater.inflate(R.layout.progress_dialog_view, null))
-        builder.setCancelable(true)
+        builder.setCancelable(false)
 
         dialog = builder.create()
         dialog.show()

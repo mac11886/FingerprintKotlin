@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinv10.R
 import com.example.kotlinv10.Service.ApiService
+import com.example.kotlinv10.model.ApiObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -69,7 +70,7 @@ class SignUpActivity : AppCompatActivity() {
         var email: String = emailText.text.toString()
         var password: String = passwordText.text.toString()
 
-        val call = apiService.signUp(name, email, password, company)
+        val call = ApiObject.apiObject.signUp(name, email, password, company)
 
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
@@ -77,7 +78,7 @@ class SignUpActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<String>, t: Throwable) {
-                Log.e("Fail", "Fuck")
+                Log.e("Fail", "fail")
             }
 
         })
