@@ -3,12 +3,16 @@ package com.example.kotlinv10.Controller
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.example.kotlinv10.R
+import com.example.kotlinv10.model.AlertDialog
 import com.example.kotlinv10.model.ApiObject
+import com.example.kotlinv10.model.AppPreferences
+import com.example.kotlinv10.model.Branch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,6 +34,11 @@ class LoginAppActivity : AppCompatActivity() {
         loginBtn = findViewById(R.id.loginBtn)
         signupText = findViewById(R.id.signupText)
 
+
+        usernameText.setText("tar1")
+        passwordText.setText("1234")
+
+
         signupText.setOnClickListener {
 
             val intent = Intent(this, SignUpActivity::class.java)
@@ -40,20 +49,67 @@ class LoginAppActivity : AppCompatActivity() {
             if (validate()) {
                 val username = usernameText.text.toString()
                 val password = passwordText.text.toString()
-                ApiObject.apiObject.login(username, password).enqueue(object : Callback<String>{
-                    override fun onResponse(call: Call<String>, response: Response<String>) {
-                        if (response.isSuccessful){
-                            Toast.makeText(applicationContext, "success login", Toast.LENGTH_SHORT).show()
+                ApiObject.apiObject.login(username, password).enqueue(object : Callback<Branch> {
+                    override fun onResponse(call: Call<Branch>, response: Response<Branch>) {
+                        if (response.isSuccessful) {
+                            AppPreferences.init(applicationContext)
+                            val branch: Branch? = response.body()
+                            AppPreferences.branch_id = branch?.id.toString()
+                            AppPreferences.company_id = branch?.company_id.toString()
+
+                            when (branch?.id) {
+                                0 -> {
+                                    Intent(
+                                        applicationContext,
+                                        FirstManageActivity::class.java
+                                    ).also {
+                                        startActivity(it)
+                                    }
+                                }
+                                else -> {
+                                    Intent(
+                                        applicationContext,
+                                        MainActivity::class.java
+                                    ).also {
+                                        startActivity(it)
+                                    }
+                                }
+                            }
+                        } else {
+                            Toast.makeText(
+                                applicationContext,
+                                "username or password is wrong!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
                         }
+
                     }
 
-                    override fun onFailure(call: Call<String>, t: Throwable) {
+                    override fun onFailure(call: Call<Branch>, t: Throwable) {
                         TODO("Not yet implemented")
+                        Toast.makeText(
+                            applicationContext,
+                            "username or password is wrong!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                 })
 
             }
+
+//            if (usernameText.text.toString() == "super"){
+//                Intent(this, FirstManageActivity::class.java).also { intent ->
+//                    startActivity(intent)
+//    //                finish()
+//                }
+//
+//            } else {
+//                Intent(this, MainActivity::class.java).also {
+//                    startActivity(it)
+//                }
+//            }
         }
 
     }

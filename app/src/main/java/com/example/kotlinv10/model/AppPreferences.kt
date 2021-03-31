@@ -25,67 +25,18 @@ object AppPreferences {
         editor.apply()
     }
 
-    var firstRun: Boolean
-        // custom getter to get a preference of a desired type, with a predefined default value
-        get() = preferences.getBoolean(IS_FIRST_RUN_PREF.first, IS_FIRST_RUN_PREF.second)
-
-        // custom setter to save a preference back to preferences file
+    private val BRANCH_ID = Pair("branch_id", "")
+    var branch_id: String?
+        get() = preferences.getString(BRANCH_ID.first, BRANCH_ID.second)
         set(value) = preferences.edit {
-            it.putBoolean(IS_FIRST_RUN_PREF.first, value)
+            it.putString(BRANCH_ID.first, value)
         }
 
-    private val DEVICE_TOKEN = Pair("device_token", null)
-    var device_token: String?
-        get() = preferences.getString(DEVICE_TOKEN.first, DEVICE_TOKEN.second)
-        set(value) = preferences.edit {
-            it.putString(DEVICE_TOKEN.first,value)
+    private val COMPANY_ID = Pair("company_id", "")
+    var company_id:  String?
+        get() = preferences.getString(COMPANY_ID.first, COMPANY_ID.second)
+        set(value) = preferences.edit{
+            it.putString(COMPANY_ID.first, value)
         }
 
-    var phone: String?
-        get() = preferences.getString("phone","")
-        set(value) = preferences.edit {
-            it.putString("phone",value)
-        }
-
-    private val ACCESS_TOKEN = Pair("access_token", "")
-    var access_token: String?
-        get() = preferences.getString(ACCESS_TOKEN.first, ACCESS_TOKEN.second)
-        set(value) = preferences.edit {
-            it.putString(ACCESS_TOKEN.first,value)
-        }
-
-    private val USER_ID = Pair("user_id", null)
-    var user_id: String?
-        get() = preferences.getString(USER_ID.first, USER_ID.second)
-        set(value) = preferences.edit {
-            it.putString(USER_ID.first,value)
-        }
-
-    private val YOUR_NAME = Pair("your_name", null)
-    var your_name: String?
-        get() = preferences.getString(YOUR_NAME.first, YOUR_NAME.second)
-        set(value) = preferences.edit {
-            it.putString(YOUR_NAME.first,value)
-        }
-
-    private val MEETING_ID = Pair("meeting_id", null)
-    var meeting_id: String?
-        get() = preferences.getString(MEETING_ID.first, MEETING_ID.second)
-        set(value) = preferences.edit {
-            it.putString(MEETING_ID.first,value)
-        }
-
-    private val SELECTED_PROFILE_IMAGE = Pair("image_profileCoach", null)
-    var imageProfileSelectedCoach: String?
-        get() = preferences.getString(SELECTED_PROFILE_IMAGE.first, SELECTED_PROFILE_IMAGE.second)
-        set(value) = preferences.edit {
-            it.putString(SELECTED_PROFILE_IMAGE.first,value)
-        }
-
-    private val CALLER_ID = Pair("caller_id", null)
-    var caller_id: String?
-        get() = preferences.getString(CALLER_ID.first, CALLER_ID.second)
-        set(value) = preferences.edit {
-            it.putString(CALLER_ID.first,value)
-        }
 }

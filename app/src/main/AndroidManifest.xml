@@ -22,7 +22,6 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -30,7 +29,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinV10">
-        <activity android:name=".Controller.FingerprintActivity"></activity>
+        <activity android:name=".Controller.SecondManageActivity"></activity>
+        <activity android:name=".Controller.FingerprintActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -44,13 +44,14 @@
 
         <activity android:name=".Controller.EditProfileActivity" />
         <activity android:name=".Controller.SignUpActivity" />
-        <activity android:name=".Controller.LoginAppActivity" />
-        <activity android:name=".Controller.MainActivity">
+        <activity android:name=".Controller.LoginAppActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Controller.MainActivity">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
@@ -59,12 +60,9 @@
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
-
-        <activity android:name=".Controller.ThirdManageActivity"></activity>
-        <activity android:name=".Controller.SecondManageActivity" />
+        <activity android:name=".Controller.ThirdManageActivity" />
         <activity android:name=".Controller.FirstManageActivity" />
         <activity android:name=".Controller.SignUpActivity" />
-        <activity android:name=".Controller.LoginAppActivity" />
     </application>
 
 </manifest>

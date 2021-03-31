@@ -1,6 +1,5 @@
 package com.example.kotlinv10.Controller
 
-import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -19,6 +18,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinv10.R
+import com.example.kotlinv10.model.AlertDialog
 import com.example.kotlinv10.model.AllData
 import com.example.kotlinv10.model.ApiObject
 import com.example.kotlinv10.model.DataHolder
@@ -66,7 +66,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var nameText: TextView
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -77,21 +76,16 @@ class MainActivity : AppCompatActivity() {
         // set ID of Activity
         var helloText = findViewById<TextView>(R.id.helloText)
         var testText = findViewById<TextView>(R.id.textTest)
-//        var beginBtn = findViewById<Button>(R.id.beginBtn)
-//        var enrollBtn = findViewById<Button>(R.id.enrollBtn)
-//        var stopBtn = findViewById<Button>(R.id.stopBtn)
-//        var verifyBtn =findViewById<Button>(R.id.verifyBtn)
+
         imageView = findViewById(R.id.imageView)
 //        imageView.setImageResource(R.drawable.ic_attendance)
 
         testText.setOnClickListener {
-            Intent(this, SignUpActivity::class.java).also { intent -> startActivity(intent) }
+            Intent(this, ThirdManageActivity::class.java).also { intent -> startActivity(intent) }
         }
 
         helloText.setOnClickListener {
-//            var intent = Intent(this, LoginAppActivity::class.java)
-//            startActivity(intent)
-            Intent(this, EditProfileActivity::class.java).also { intent ->
+            Intent(this, FirstManageActivity::class.java).also { intent ->
                 startActivity(intent)
             }
         }
@@ -106,7 +100,8 @@ class MainActivity : AppCompatActivity() {
         checkOutBtn.setOnClickListener {
             onBegin()
         }
-        loadDialog()
+
+        AlertDialog.loadingDialog(this)
 
         val call = ApiObject.apiObject.getAllData(1)
 
@@ -121,19 +116,8 @@ class MainActivity : AppCompatActivity() {
         })
 
         val someHandler = Handler(mainLooper)
-        someHandler.postDelayed({ dialog.dismiss() }, 3000)
+        someHandler.postDelayed({ AlertDialog.dismissDialog() }, 3000)
 
-    }
-
-    fun loadDialog(){
-        val activity = this
-        val builder = AlertDialog.Builder(activity)
-        val inflater: LayoutInflater = activity.layoutInflater
-        builder.setView(inflater.inflate(R.layout.progress_dialog_view, null))
-        builder.setCancelable(false)
-
-        dialog = builder.create()
-        dialog.show()
     }
 
     fun setTimeAndDate() {
