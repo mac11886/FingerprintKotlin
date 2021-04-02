@@ -26,6 +26,42 @@ object AlertDialog {
         dialog.show()
     }
 
+    fun editCompanyDialog(activity:Activity,isEdit: Boolean){
+        val builder = AlertDialog.Builder(activity)
+        val inflater = activity.layoutInflater.inflate(R.layout.input_company_dialog,null)
+
+        builder.setView(inflater)
+        builder.setCancelable(true)
+
+        dialog = builder.create()
+
+        var button = inflater.findViewById<Button>(R.id.buttonCompany)
+        var companyEdit = inflater.findViewById<EditText>(R.id.companyName)
+        if (isEdit){
+            var nameCompany = inflater.findViewById<TextView>(R.id.company1)
+
+            var getCompanyName = nameCompany.text
+            companyEdit.setText(getCompanyName)
+        }else{
+            button.setOnClickListener {
+                if (!isEdit){
+                    var valid = true
+                    if(companyEdit.text.toString().isNullOrEmpty()){
+                        companyEdit.error = "Please enter Company name"
+                        valid = false
+                    }
+                    if (valid){
+                        if(AppPreferences.company_id != ""){
+
+                        }
+
+                    }
+                }
+            }
+        }
+        dialog.show()
+    }
+
     fun inputDialog(activity: Activity, isEdit: Boolean) {
         val builder = AlertDialog.Builder(activity)
         val inflater = activity.layoutInflater.inflate(R.layout.input_dialog, null)

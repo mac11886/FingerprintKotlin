@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="มีบัญชีแล้ว Login เลย"
+            android:text="@string/login"
             android:textColor="@color/black"
             android:textSize="16dip" />
 

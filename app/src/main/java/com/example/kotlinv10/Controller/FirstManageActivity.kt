@@ -14,7 +14,9 @@ import com.example.kotlinv10.model.BranchAdapter
 
 class FirstManageActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
-    lateinit var button: Button
+    lateinit var button : Button
+    lateinit var companyButton : Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first_manage)
@@ -25,7 +27,10 @@ class FirstManageActivity : AppCompatActivity() {
         val adapter = BranchAdapter(this, listOf("hello", "world"))
         recyclerView.adapter = adapter
         button = findViewById(R.id.button2)
-
+        companyButton = findViewById(R.id.companyButton)
+        companyButton.setOnClickListener {
+            AlertDialog.editCompanyDialog(this,false)
+        }
         button.setOnClickListener {
             AlertDialog.inputDialog(this, false)
         }

@@ -27,14 +27,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="2.5"
-                android:text="Manage branch"
+                android:text="Company name"
                 android:textSize="25dp" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/companyButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="แก้ไขชื่อบริษัท" />
+                android:text="@string/editCompany" />
 
         </LinearLayout>
 
@@ -49,7 +49,7 @@
                 android:id="@+id/button2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="เพิ่มแผนก" />
+                android:text="@string/addDepartment" />
 
         </LinearLayout> <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sectorList"

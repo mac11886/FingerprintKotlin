@@ -1,15 +1,16 @@
 package com.example.kotlinv10.Controller
 
+import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
+import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinv10.R
-import com.example.kotlinv10.model.AlertDialog
 import com.example.kotlinv10.model.ApiObject
 import com.example.kotlinv10.model.AppPreferences
 import com.example.kotlinv10.model.Branch
@@ -35,8 +36,8 @@ class LoginAppActivity : AppCompatActivity() {
         signupText = findViewById(R.id.signupText)
 
 
-        usernameText.setText("tar1")
-        passwordText.setText("1234")
+        usernameText.setText("mac")
+        passwordText.setText("123")
 
 
         signupText.setOnClickListener {
@@ -65,6 +66,11 @@ class LoginAppActivity : AppCompatActivity() {
                                     ).also {
                                         startActivity(it)
                                     }
+                                    try {
+                                        hideSoftKeyboard(this@LoginAppActivity)
+                                    }catch (e:Exception){
+                                        Log.e("Hide keyboard","error")
+                                    }
                                 }
                                 else -> {
                                     Intent(
@@ -73,7 +79,11 @@ class LoginAppActivity : AppCompatActivity() {
                                     ).also {
                                         startActivity(it)
                                     }
-                                }
+                                    try {
+                                        hideSoftKeyboard(this@LoginAppActivity)
+                                    }catch (e:Exception){
+                                        Log.e("Hide keyboard","error")
+                                    }  }
                             }
                         } else {
                             Toast.makeText(
@@ -125,5 +135,14 @@ class LoginAppActivity : AppCompatActivity() {
             error = false
         }
         return error
+    }
+
+    fun hideSoftKeyboard(activity: Activity) {
+        val inputMethodManager = activity.getSystemService(
+            INPUT_METHOD_SERVICE
+        ) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(
+            activity.currentFocus!!.windowToken, 0
+        )
     }
 }

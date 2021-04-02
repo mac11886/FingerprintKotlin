@@ -61,6 +61,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+
                     android:id="@+id/adminName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -97,14 +98,15 @@
 
                 <EditText
                     android:id="@+id/password1"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@color/white"
                     android:ems="10"
                     android:hint="Enter password"
-
-                    android:inputType="textPersonName" />
+                    android:inputType="textPassword"
+                     />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_marginTop="5dp"
@@ -120,8 +122,8 @@
                     android:background="@color/white"
                     android:ems="10"
                     android:hint="Enter re-password"
-
-                    android:inputType="textPersonName" />
+                    android:inputType="textPassword"
+                     />
             </com.google.android.material.textfield.TextInputLayout>
             <Button
                 android:id="@+id/button3"

@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:hint="@string/email" />
+                android:hint="@string/username" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -83,7 +83,7 @@
             android:layout_marginBottom="24dp"
 
             android:gravity="center"
-            android:text="ยังไม่มีบัญชีหรอ กดสมัครตรงนี้สิ"
+            android:text="@string/textToSignup"
             android:textSize="16dip" />
 
     </LinearLayout>

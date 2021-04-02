@@ -10,6 +10,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:id="@+id/cardProfile"
         android:backgroundTint="#c4c4c4"
         app:cardCornerRadius="20dp">
 

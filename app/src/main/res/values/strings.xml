@@ -2,7 +2,14 @@
     <string name="app_name">KotlinV1.0</string>
     <string name="email">E-mail</string>
     <string name="password">Password</string>
-    <string name="login">เข้าสู่ระบบ</string>
-    <string name="signUp">สมัครสมาชิก</string>
+    <string name="login">Login</string>
+    <string name="signUp">Signup</string>
     <string name="company">Company</string>
+    <string name="username">Username</string>
+    <string name="textToSignup">Create a new account</string>
+    <string name="editCompany">Edit Company name</string>
+    <string name="addDepartment">Add Department</string>
+    <string name="progressDialog">Wait a moment..</string>
+
+
 </resources>
