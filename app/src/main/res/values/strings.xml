@@ -10,6 +10,6 @@
     <string name="editCompany">Edit Company name</string>
     <string name="addDepartment">Add Department</string>
     <string name="progressDialog">Wait a moment..</string>
-
+    <string name="lateAttendance">Choose Late Attendance Time</string>
 
 </resources>

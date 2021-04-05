@@ -6,4 +6,11 @@ object DataHolder {
         set(value) {
             field = value
         }
+
+
+    var company:CompanyX? = null
+        get() = field
+        set(value){
+            field = value
+        }
 }

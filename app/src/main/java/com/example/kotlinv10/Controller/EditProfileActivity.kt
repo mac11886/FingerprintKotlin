@@ -40,7 +40,8 @@ class EditProfileActivity : AppCompatActivity() {
     lateinit var secondFinger: ImageView
     lateinit var submitBtn: Button
 
-
+  private lateinit  var base64First :String
+    private lateinit var base64Second: String
     lateinit var imageURI: Uri
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -48,20 +49,28 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
         initUi()
+         base64First = intent.getStringExtra("base64FirstFinger").toString()
+         base64Second = intent.getStringExtra("base64SecondFinger").toString()
+
+        Log.e("base64Edit1",base64First)
+        Log.e("base64Edit2",base64Second)
 
         imageProfile.setOnClickListener {
             selectImage(this)
         }
         firstFinger.setOnClickListener{
-            Intent(this, FingerprintActivity::class.java).also { nextIntent -> startActivity(
-                nextIntent
-            )
+            val first  = "First Finger"
+
+            Intent(this, FingerprintActivity::class.java).also { nextIntent ->
+                nextIntent.putExtra("fingerprint",first)
+                startActivity(nextIntent)
             }}
 
         secondFinger.setOnClickListener{
-            Intent(this, FingerprintActivity::class.java).also { nextIntent -> startActivity(
-                nextIntent
-            )
+            val second = "Second Finger"
+            Intent(this, FingerprintActivity::class.java).also { nextIntent ->
+                nextIntent.putExtra("fingerprint",second)
+                startActivity(nextIntent)
             }}
 
     }

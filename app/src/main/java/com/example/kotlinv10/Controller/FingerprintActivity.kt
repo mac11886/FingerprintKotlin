@@ -1,5 +1,6 @@
 package com.example.kotlinv10.Controller
 
+import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -36,7 +37,11 @@ class FingerprintActivity : AppCompatActivity() {
     lateinit var checkFirst: ImageView
     lateinit var checkSecond: ImageView
     lateinit var checkThird: ImageView
-    lateinit var strbase64: String
+    lateinit var strBase64: String
+    lateinit var nameFinger : TextView
+    lateinit var finger :String
+
+
 
     // fingerprint
     private val VID = 6997
@@ -56,14 +61,14 @@ class FingerprintActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fingerprint)
-
+        finger = intent.getStringExtra("fingerprint").toString()
 
         initUi()
         startFingerprintSensor()
         initDevice()
         onBnEnroll()
 
-
+        nameFinger.text = finger
     }
 
     private fun initUi() {
@@ -76,7 +81,7 @@ class FingerprintActivity : AppCompatActivity() {
         checkSecond = findViewById(R.id.checkSecond)
         checkThird = findViewById(R.id.checkThrid)
         showText = findViewById(R.id.showText)
-
+        nameFinger = findViewById(R.id.nameOfFinger)
 
     }
 
@@ -138,7 +143,6 @@ class FingerprintActivity : AppCompatActivity() {
             var i = 0;
             if (bstart)
                 return
-            Log.e("ERROR", "--------------------------------------------------------------------")
             try {
                 fingerprintSensor!!.open(0)
             } catch (eF: FingerprintException) {
@@ -219,11 +223,14 @@ class FingerprintActivity : AppCompatActivity() {
                                 ) {
                                     ZKFingerService.save(regTemp, "0" + uid++)
                                     System.arraycopy(regTemp, 0, lastRegTemp, 0, ret)
-                                    strbase64 =
+                                    strBase64 =
                                         Base64.encodeToString(regTemp, 0, ret, Base64.NO_WRAP)
                                     //enroll success
                                     showText.text = "ลงทะเบียนสำเร็จ"
                                     checkThird.setImageResource(R.drawable.ic_check)
+
+                                    com.example.kotlinv10.model.AlertDialog.confirmDialog(this@FingerprintActivity,applicationContext,strBase64,finger)
+                                    Log.e("base64Finger",strBase64)
                                 } else {
                                     showText.text = "ลงทะเบียนไม่สำเร็จ"
                                     //enroll failed
@@ -251,7 +258,7 @@ class FingerprintActivity : AppCompatActivity() {
                                 var strRes = String(bufids).split("\t")
                                 Toast.makeText(
                                     applicationContext,
-                                    "CHECK5555555",
+                                    "",
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 //identify

@@ -22,7 +22,7 @@
             android:weightSum="3">
 
             <TextView
-                android:id="@+id/company1"
+                android:id="@+id/companyName1"
                 android:layout_width="226dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

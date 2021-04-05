@@ -19,6 +19,7 @@ interface ApiService {
     @GET("getAllData/{company_id}")
     fun getAllData(@Path("company_id") company: Int): Call<AllData>
 
+
     @POST("login")
     fun login(@Query("username") username: String,
               @Query("password") password: String,): Call<Branch>
@@ -29,4 +30,42 @@ interface ApiService {
                    @Query("name") name: String,
                    @Query("username") username: String,
                    @Query("password") password: String): Call<String>
+
+    @POST("editCompany")
+    fun editCompany(@Query("company_id") company_id: Int?,
+                    @Query("company_name") company: String) :Call<String>
+
+
+    @POST("saveCompany")
+    fun saveCompany(@Query ("company_name") company: String) :Call<String>
+
+    @POST("saveUser")
+    fun saveUser(@Query("name") name: String,
+                 @Query ("company_id") company_id: Int?,
+                 @Query("fingerprint_id") fingerprint_id : Int?,
+                @Query("branch_id") branch_id :Int?) :Call<String>
+
+
+    @POST("attendance")
+    fun saveAttendance(@Query("user_id") user_id :Int?,
+                        @Query("branch_id") branch_id: Int?,
+                        @Query("status") status : String)
+
+
+    @POST("saveProfile")
+    fun saveProfile(@Query("user_name") user_name: String,
+                    @Query("company_id")company_id: Int?,
+                    @Query("branch_id")branch_id: Int?,
+                    @Query("first_fingerprint") first_fingerprint :String,
+                    @Query("second_fingerprint") second_fingerprint : String
+
+    )
+
+    @POST("editProfile")
+    fun editProfile(@Query("id") id :Int?,
+                    @Query("user_name") username: String,
+                    @Query("first_fingerprint")first_fingerprint: String,
+                    @Query("second_fingerprint") second_fingerprint: String)
+
+
 }

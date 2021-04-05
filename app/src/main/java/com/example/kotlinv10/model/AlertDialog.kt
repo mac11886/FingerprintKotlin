@@ -3,11 +3,12 @@ package com.example.kotlinv10.model
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.core.content.ContextCompat.startActivity
+import com.example.kotlinv10.Controller.EditProfileActivity
 import com.example.kotlinv10.R
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,19 +27,58 @@ object AlertDialog {
         dialog.show()
     }
 
+    fun confirmDialog(activity: Activity,context: Context,strBase64: String,whichFinger : String){
+        val builder = AlertDialog.Builder(activity)
+        val inflater  = activity.layoutInflater.inflate(R.layout.confirm_dialog,null)
+        builder.setView(inflater)
+        builder.setCancelable(true)
+        dialog =builder.create()
+
+        var button = inflater.findViewById<Button>(R.id.confirmBtn)
+        dialog = builder.create()
+        dialog.show()
+        button.setOnClickListener {
+            if (whichFinger == "First Finger"){
+                Intent(context,EditProfileActivity::class.java).also { intent ->
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    intent.putExtra("base64FirstFinger",strBase64)
+                    context.startActivity(intent)
+                    activity.finish()}
+            }
+            else{
+                Intent(context,EditProfileActivity::class.java).also { intent ->
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    intent.putExtra("base64SecondFinger",strBase64)
+                    context.startActivity(intent)
+                    activity.finish()}
+            }
+
+
+        }
+
+    }
     fun editCompanyDialog(activity:Activity,isEdit: Boolean){
+
+
+
+
+
         val builder = AlertDialog.Builder(activity)
         val inflater = activity.layoutInflater.inflate(R.layout.input_company_dialog,null)
 
         builder.setView(inflater)
         builder.setCancelable(true)
-
         dialog = builder.create()
 
         var button = inflater.findViewById<Button>(R.id.buttonCompany)
         var companyEdit = inflater.findViewById<EditText>(R.id.companyName)
+
+        var timePicker : TimePicker
+        timePicker = inflater.findViewById(R.id.timePicker)
+        timePicker.setIs24HourView(true)
+
         if (isEdit){
-            var nameCompany = inflater.findViewById<TextView>(R.id.company1)
+            var nameCompany = inflater.findViewById<TextView>(R.id.companyName1)
 
             var getCompanyName = nameCompany.text
             companyEdit.setText(getCompanyName)

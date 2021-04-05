@@ -30,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+        android:layout_marginTop="32dp"
         android:orientation="horizontal"
         android:weightSum="3"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
@@ -45,8 +46,8 @@
                 android:id="@+id/imageFirstFinger"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginRight="10dp"
+                android:layout_weight="1"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ImageView
@@ -70,8 +71,8 @@
                 android:id="@+id/imageSecondFinger"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginRight="10dp"
+                android:layout_weight="1"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ImageView
@@ -103,8 +104,8 @@
                 android:layout_width="60dp"
                 android:layout_height="54dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
                 android:layout_marginTop="5dp"
+                android:layout_weight="1"
                 tools:layout_editor_absoluteX="335dp"
                 tools:layout_editor_absoluteY="437dp" />
         </LinearLayout>
