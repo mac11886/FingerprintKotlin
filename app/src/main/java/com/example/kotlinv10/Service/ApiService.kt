@@ -24,6 +24,8 @@ interface ApiService {
     fun getAllData(@Path("company_id") company: Int): Call<AllData>
 
 
+    @GET("getDataUser/{branch}")
+    fun getDataUser(@Path("branch")branch_id: Int?) : Call<List<DataUser>>
     @POST("login")
     fun login(
         @Query("username") username: String,

@@ -27,6 +27,7 @@ import androidx.core.content.FileProvider
 import com.example.kotlinv10.R
 import com.example.kotlinv10.model.AlertDialog.getName
 import com.example.kotlinv10.model.ApiObject
+import com.example.kotlinv10.model.AppPreferences
 import com.example.kotlinv10.model.DataHolder
 import com.example.kotlinv10.model.DataUser
 import retrofit2.Call
@@ -51,7 +52,7 @@ class EditProfileActivity : AppCompatActivity() {
 
 
     lateinit var imageURI: Uri
-  
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,8 +104,8 @@ class EditProfileActivity : AppCompatActivity() {
         var finger1 = com.example.kotlinv10.model.AlertDialog.fingerprint1
         var finger2 = com.example.kotlinv10.model.AlertDialog.fingerprint2
         //wait get
-        var companyId = 1
-        var branchId = 1
+        var companyId = AppPreferences.company_id!!.toInt()
+        var branchId = AppPreferences.branch_id!!.toInt()
 
         Log.e("name", name)
         Log.e("finger1", finger1)

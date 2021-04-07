@@ -9,4 +9,12 @@ object DataHolder {
         }
 
     lateinit var name : String
+
+
+
+    var allDataUser : List<DataUser>? = null
+        get () =field
+        set(value) {
+            field = value
+        }
 }
