@@ -14,6 +14,7 @@ import com.example.kotlinv10.R
 import com.example.kotlinv10.model.ApiObject
 import com.example.kotlinv10.model.AppPreferences
 import com.example.kotlinv10.model.Branch
+import com.example.kotlinv10.model.DataAdmin
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,6 +30,7 @@ class LoginAppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_app)
+        AppPreferences.init(applicationContext)
 
         usernameText = findViewById(R.id.inputEmail)
         passwordText = findViewById(R.id.inputPassword)
@@ -50,15 +52,14 @@ class LoginAppActivity : AppCompatActivity() {
             if (validate()) {
                 val username = usernameText.text.toString()
                 val password = passwordText.text.toString()
-                ApiObject.apiObject.login(username, password).enqueue(object : Callback<Branch> {
-                    override fun onResponse(call: Call<Branch>, response: Response<Branch>) {
+                ApiObject.apiObject.login(username, password).enqueue(object : Callback<DataAdmin> {
+                    override fun onResponse(call: Call<DataAdmin>, response: Response<DataAdmin>) {
                         if (response.isSuccessful) {
-                            AppPreferences.init(applicationContext)
-                            val branch: Branch? = response.body()
-                            AppPreferences.branch_id = branch?.id.toString()
-                            AppPreferences.company_id = branch?.company_id.toString()
+                            val dataAdmin: DataAdmin? = response.body()
+                            AppPreferences.branch_id = dataAdmin?.branch_id.toString()
+                            AppPreferences.company_id = dataAdmin?.company_id.toString()
 
-                            when (branch?.id) {
+                            when (dataAdmin?.branch_id) {
                                 0 -> {
                                     Intent(
                                         applicationContext,
@@ -96,7 +97,7 @@ class LoginAppActivity : AppCompatActivity() {
 
                     }
 
-                    override fun onFailure(call: Call<Branch>, t: Throwable) {
+                    override fun onFailure(call: Call<DataAdmin>, t: Throwable) {
 //                        Log.e("error", t.message.toString())
                         Toast.makeText(applicationContext,"username or password is wrong!", Toast.LENGTH_SHORT).show()
                     }

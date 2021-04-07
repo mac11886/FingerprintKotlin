@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinv10.R
 
 
-class BranchAdapter(context: Context, branches: List<String>):
+class BranchAdapter(context: Context, admins: List<DataAdmin>):
     RecyclerView.Adapter<BranchAdapter.ViewHolder>() {
 
     var context = context
-    var branches = branches
+    var admins = admins
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var branchText: TextView = itemView.findViewById(R.id.branchName)
         var adminText: TextView = itemView.findViewById(R.id.adminName)
@@ -28,14 +28,15 @@ class BranchAdapter(context: Context, branches: List<String>):
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.adminText.text =branches[position]
+        holder.adminText.text = admins[position].name
+        holder.branchText.text = admins[position].branch.name
         holder.cardView.setOnClickListener{
-            AlertDialog.inputDialog(context as Activity, true)
+            AlertDialog.inputDialog(context as Activity, true, admins[position], )
         }
     }
 
     override fun getItemCount(): Int {
-        return branches.size
+        return admins.size
     }
 
 }
