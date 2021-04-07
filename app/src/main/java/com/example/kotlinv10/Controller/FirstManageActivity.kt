@@ -28,19 +28,21 @@ class FirstManageActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.sectorList)
         recyclerView.layoutManager = LinearLayoutManager(this)
         companyName = findViewById(R.id.companyName1)
+        AlertDialog.loadingDialog(this)
 //        val call = ApiObject.apiObject.getAllData(1)
-//
-//        call.enqueue(object :Callback<AllData>{
-//            override fun onResponse(call: Call<AllData>, response: Response<AllData>) {
-//                DataHolder.allData = response.body()
-//
-//
-//            }
-//
-//            override fun onFailure(call: Call<AllData>, t: Throwable) {
-//                TODO("Not yet implemented")
-//            }
-//        })
+
+        ApiObject.apiObject.getAllData(AppPreferences.company_id!!.toInt()).enqueue(object :
+            Callback<AllData> {
+            override fun onResponse(call: Call<AllData>, response: Response<AllData>) {
+                Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT).show()
+                AlertDialog.dismissDialog()
+            }
+
+            override fun onFailure(call: Call<AllData>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
 
         val adapter = BranchAdapter(this, listOf("hello", "world"))
         recyclerView.adapter = adapter

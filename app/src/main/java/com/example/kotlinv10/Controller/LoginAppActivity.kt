@@ -36,8 +36,8 @@ class LoginAppActivity : AppCompatActivity() {
         signupText = findViewById(R.id.signupText)
 
 
-        usernameText.setText("mac")
-        passwordText.setText("123")
+        usernameText.setText("tar1")
+        passwordText.setText("1234")
 
 
         signupText.setOnClickListener {
@@ -97,12 +97,8 @@ class LoginAppActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<Branch>, t: Throwable) {
-                        TODO("Not yet implemented")
-                        Toast.makeText(
-                            applicationContext,
-                            "username or password is wrong!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+//                        Log.e("error", t.message.toString())
+                        Toast.makeText(applicationContext,"username or password is wrong!", Toast.LENGTH_SHORT).show()
                     }
 
                 })
