@@ -2,6 +2,7 @@ package com.example.kotlinv10.Controller
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -16,10 +17,14 @@ import retrofit2.Response
 
 class FirstManageActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
-    lateinit var button : Button
+    lateinit var editbutton : Button
     lateinit var companyButton : Button
     lateinit var companyName : TextView
 
+//    override fun onResume() {
+//        super.onResume()
+//
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +39,16 @@ class FirstManageActivity : AppCompatActivity() {
         ApiObject.apiObject.getAllData(AppPreferences.company_id!!.toInt()).enqueue(object :
             Callback<AllData> {
             override fun onResponse(call: Call<AllData>, response: Response<AllData>) {
-                Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT).show()
-                AlertDialog.dismissDialog()
+                if (response.isSuccessful) {
+
+//                    Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT).show()
+                    var companyNameList = listOf<String>()
+
+                    val adminList = response.body()!!.dataAdmin
+
+                    loadAdapter(adminList)
+                    AlertDialog.dismissDialog()
+                }
             }
 
             override fun onFailure(call: Call<AllData>, t: Throwable) {
@@ -44,16 +57,19 @@ class FirstManageActivity : AppCompatActivity() {
 
         })
 
-        val adapter = BranchAdapter(this, listOf("hello", "world"))
+
+
+    }
+    fun loadAdapter(list: List<DataAdmin>){
+        val adapter = BranchAdapter(this, list)
         recyclerView.adapter = adapter
-        button = findViewById(R.id.button2)
+        editbutton = findViewById(R.id.button2)
         companyButton = findViewById(R.id.companyButton)
         companyButton.setOnClickListener {
-            AlertDialog.editCompanyDialog(this,false)
+            AlertDialog.editCompanyDialog(this, false)
         }
-        button.setOnClickListener {
-            AlertDialog.inputDialog(this, false)
+        editbutton.setOnClickListener {
+            AlertDialog.inputDialog(this, false, null)
         }
-
     }
 }
