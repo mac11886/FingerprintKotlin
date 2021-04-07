@@ -18,7 +18,7 @@ object AlertDialog {
     lateinit var dialog: Dialog
      var fingerprint1 : String = ""
      var fingerprint2 : String = ""
-
+    var getName : String = ""
 
 
 
@@ -32,7 +32,7 @@ object AlertDialog {
         dialog.show()
     }
 
-    fun confirmDialog(activity: Activity,context: Context,strBase64: String,whichFinger : String){
+    fun confirmDialog(activity: Activity,context: Context,strBase64: String,whichFinger : String,name : String){
         val builder = AlertDialog.Builder(activity)
         val inflater  = activity.layoutInflater.inflate(R.layout.confirm_dialog,null)
         builder.setView(inflater)
@@ -48,6 +48,7 @@ object AlertDialog {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     intent.putExtra("base64FirstFinger",strBase64)
                     fingerprint1 = strBase64
+                    getName = name
                     context.startActivity(intent)
                     activity.finish()}
             }

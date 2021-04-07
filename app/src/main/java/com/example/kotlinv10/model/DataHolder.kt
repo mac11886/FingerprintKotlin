@@ -5,5 +5,8 @@ object DataHolder {
         get() = field
         set(value) {
             field = value
+
         }
+
+    lateinit var name : String
 }
