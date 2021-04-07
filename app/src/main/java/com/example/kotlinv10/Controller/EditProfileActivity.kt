@@ -49,11 +49,12 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
         initUi()
-         base64First = intent.getStringExtra("base64FirstFinger").toString()
-         base64Second = intent.getStringExtra("base64SecondFinger").toString()
 
-        Log.e("base64Edit1",base64First)
-        Log.e("base64Edit2",base64Second)
+
+
+        //finger ja
+        Log.e("base64Edit1",com.example.kotlinv10.model.AlertDialog.fingerprint1)
+        Log.e("base64Edit2",com.example.kotlinv10.model.AlertDialog.fingerprint2)
 
         imageProfile.setOnClickListener {
             selectImage(this)

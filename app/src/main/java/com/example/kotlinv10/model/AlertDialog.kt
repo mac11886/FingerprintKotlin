@@ -16,6 +16,11 @@ import retrofit2.Response
 
 object AlertDialog {
     lateinit var dialog: Dialog
+     var fingerprint1 : String = ""
+     var fingerprint2 : String = ""
+
+
+
 
     fun loadingDialog(activity: Activity) {
         val builder = AlertDialog.Builder(activity)
@@ -42,6 +47,7 @@ object AlertDialog {
                 Intent(context,EditProfileActivity::class.java).also { intent ->
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     intent.putExtra("base64FirstFinger",strBase64)
+                    fingerprint1 = strBase64
                     context.startActivity(intent)
                     activity.finish()}
             }
@@ -49,6 +55,7 @@ object AlertDialog {
                 Intent(context,EditProfileActivity::class.java).also { intent ->
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     intent.putExtra("base64SecondFinger",strBase64)
+                    fingerprint2 = strBase64
                     context.startActivity(intent)
                     activity.finish()}
             }
@@ -58,8 +65,6 @@ object AlertDialog {
 
     }
     fun editCompanyDialog(activity:Activity,isEdit: Boolean){
-
-
 
 
 
@@ -73,8 +78,7 @@ object AlertDialog {
         var button = inflater.findViewById<Button>(R.id.buttonCompany)
         var companyEdit = inflater.findViewById<EditText>(R.id.companyName)
 
-        var timePicker : TimePicker
-        timePicker = inflater.findViewById(R.id.timePicker)
+        var timePicker : TimePicker = inflater.findViewById(R.id.timePicker)
         timePicker.setIs24HourView(true)
 
         if (isEdit){
