@@ -58,7 +58,6 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
         initUi()
-
         nameText.setText(""+getName)
         submitBtn.setOnClickListener {
             saveProfile()
@@ -88,14 +87,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     }
 
-    fun haveUser(){
-        var  name = intent.getStringExtra("username")
-        var first = intent.getStringExtra("firstFinger")
-        var second = intent.getStringExtra("secondFinger")
-        nameText.setText(""+name)
-        first = com.example.kotlinv10.model.AlertDialog.fingerprint1
-        second = com.example.kotlinv10.model.AlertDialog.fingerprint2
-    }
+
 
     private fun initUi() {
 //        imageProfile = findViewById(R.id.imageProfile)

@@ -35,8 +35,10 @@ class UserAdapter(context: Context, nameUsers: List<DataUser>) :
         holder.cardView.setOnClickListener {
             Intent(context,EditProfileActivity::class.java).also { intent ->
                 intent.putExtra("username",nameUsers[position].name)
-                intent.putExtra("firstFinger",nameUsers[position].fingerprint.first_fingerprint)
-                intent.putExtra("secondFinger",nameUsers[position].fingerprint.second_fingerprint)
+                if (nameUsers[position].fingerprint !=null){
+                    intent.putExtra("firstFinger",nameUsers[position].fingerprint.first_fingerprint)
+                    intent.putExtra("secondFinger",nameUsers[position].fingerprint.second_fingerprint)
+                }
                 context.startActivity(intent)}
         }
     }
