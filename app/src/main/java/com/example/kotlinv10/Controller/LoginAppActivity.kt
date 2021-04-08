@@ -38,8 +38,8 @@ class LoginAppActivity : AppCompatActivity() {
         signupText = findViewById(R.id.signupText)
 
 
-        usernameText.setText("mac")
-        passwordText.setText("123")
+        usernameText.setText("tar2")
+        passwordText.setText("1234")
 
 
         signupText.setOnClickListener {

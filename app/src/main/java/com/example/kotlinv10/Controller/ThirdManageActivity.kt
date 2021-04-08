@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinv10.R
@@ -15,6 +16,8 @@ import com.example.kotlinv10.model.UserAdapter
 class ThirdManageActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var addPersonBtn :Button
+    lateinit var branchName : TextView
+    lateinit var listUser : List<DataUser>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_third_manage)
@@ -28,7 +31,9 @@ class ThirdManageActivity : AppCompatActivity() {
 
         loadAdapter(data!!)
 
-
+        branchName = findViewById(R.id.branchName)
+        var name =  data[0].branch.name
+        branchName.text = name
         addPersonBtn = findViewById(R.id.addPerson)
         addPersonBtn.setOnClickListener {
             Intent(this,EditProfileActivity::class.java).also { intent ->  startActivity(intent)}
