@@ -10,6 +10,7 @@ import android.hardware.usb.UsbManager
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.os.Handler
+import android.util.Base64
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
@@ -60,8 +61,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var checkInBtn: Button
     lateinit var checkOutBtn: Button
     lateinit var nameText: TextView
-
-
+    lateinit var showText : TextView
+    var userList: List<DataUser>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,11 +88,38 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+        //API
+        try {
+            val call = ApiObject.apiObject.getDataUser(AppPreferences.branch_id!!.toInt())
+            Toast.makeText(this@MainActivity, "" + AppPreferences.branch_id, Toast.LENGTH_SHORT)
+                .show()
+            call.enqueue(object : Callback<List<DataUser>> {
+                override fun onResponse(
+                    call: Call<List<DataUser>>,
+                    response: Response<List<DataUser>>
+                ) {
+
+                    DataHolder.allDataUser = response.body()
+                    userList = DataHolder.allDataUser
+
+                    Log.e("dataholder", "" + DataHolder.allDataUser)
+                }
+
+                override fun onFailure(call: Call<List<DataUser>>, t: Throwable) {
+                    Log.e("dataholdererror", "" + DataHolder.allDataUser)
+
+                }
+
+            })
+        } catch (e: Exception) {
+            Toast.makeText(this, "catch get datauser", Toast.LENGTH_SHORT).show()
+        }
 
         //fingerprint
         startFingerprintSensor()
         initDevice()
-
+        userList = DataHolder.allDataUser
+        Log.e("userList", userList.toString())
         checkInBtn.setOnClickListener {
             onBegin()
         }
@@ -99,23 +127,11 @@ class MainActivity : AppCompatActivity() {
             onBegin()
         }
 
+
+
+
         AlertDialog.loadingDialog(this)
 
-        val call = ApiObject.apiObject.getDataUser(AppPreferences.branch_id!!.toInt())
-        Toast.makeText(this@MainActivity,""+AppPreferences.branch_id,Toast.LENGTH_SHORT).show()
-        call.enqueue(object : Callback<List<DataUser>> {
-            override fun onResponse(call: Call<List<DataUser>>, response: Response<List<DataUser>>) {
-
-                DataHolder.allDataUser = response.body()
-                Log.e("dataholder",""+ DataHolder.allDataUser)
-            }
-
-            override fun onFailure(call: Call<List<DataUser>>, t: Throwable) {
-                Log.e("dataholdererror",""+ DataHolder.allDataUser)
-
-            }
-
-        })
 
         val someHandler = Handler(mainLooper)
         someHandler.postDelayed({ AlertDialog.dismissDialog() }, 3000)
@@ -145,7 +161,8 @@ class MainActivity : AppCompatActivity() {
         checkOutBtn = findViewById(R.id.checkOutButton)
         timeText = findViewById(R.id.timeTextView)
         dateText = findViewById(R.id.dateTextView)
-
+        showText = findViewById(R.id.showText)
+        nameText = findViewById(R.id.nameUser)
     }
 
     private val mUsbReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -201,18 +218,71 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun getUser(id: Int): DataUser {
+        return userList!!.get(id)
+    }
+
+
     @Throws(FingerprintException::class)
     fun onBegin() {
         try {
             var i = 0;
             if (bstart)
                 return
-            Log.e("ERROR", "--------------------------------------------------------------------")
+            fingerprintSensor!!.open(0)
+
             try {
-                fingerprintSensor!!.open(0)
+                if (userList != null) {
+                    for (user in userList!!) {
+                        if (user != null) {
+                            if (user.fingerprint != null) {
+                                var fingerByte1 = Base64.decode(user.fingerprint.first_fingerprint, Base64.NO_WRAP)
+                                var fingerByte2 = Base64.decode(user.fingerprint.second_fingerprint, Base64.NO_WRAP)
+                                ZKFingerService.save(fingerByte1, " " + user.id)
+                                ZKFingerService.save(fingerByte2, "0" + user.id)
+                                //save finger
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    " save finger",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            else {
+                                //null fingerprint
+//                                Toast.makeText(
+//                                    this@MainActivity,
+//                                    " null fingerprint",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
+                            }
+                            i++
+                        } else {
+                            // null user
+//                            Toast.makeText(
+//                                this@MainActivity,
+//                                " null user",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+                        }
+
+                    }
+
+
+                } else {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "else can't save finger",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
             } catch (eF: FingerprintException) {
-                Log.e("ERROR", "" + eF.message)
+                Toast.makeText(this@MainActivity, "error save finger", Toast.LENGTH_SHORT)
+                    .show()
             }
+
+
             val listenter: FingerprintCaptureListener = object : FingerprintCaptureListener {
                 override fun captureOK(p0: ByteArray?) {
                     val imageWidth = fingerprintSensor!!.imageWidth
@@ -269,7 +339,7 @@ class MainActivity : AppCompatActivity() {
                                         regTemp
                                     )).also { ret = it }
                                 ) {
-                                    ZKFingerService.save(regTemp, "0" + uid++)
+//                                    ZKFingerService.save(regTemp, "0" + uid++)
                                     System.arraycopy(regTemp, 0, lastRegTemp, 0, ret)
 
                                     //enroll success
@@ -288,12 +358,19 @@ class MainActivity : AppCompatActivity() {
                                 var strRes = String(bufids).split("\t")
                                 Toast.makeText(
                                     applicationContext,
-                                    "CHECK5555555",
+                                    "identity",
                                     Toast.LENGTH_SHORT
                                 ).show()
                                 //identify
+                                showText.text = "threshold " + strRes[1] + "%"
+                                nameText.text = getUser(strRes[0].toInt()).name
                             } else {
                                 //identify failed
+                                Toast.makeText(
+                                    applicationContext,
+                                    "identity failed",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                             //Base 64 Template
 //                            var strBase64 = encodeToString1(p0, fingerprintSensor!!.lastTempLen)
@@ -313,7 +390,7 @@ class MainActivity : AppCompatActivity() {
             bstart = true
             Toast.makeText(this, "CHECK", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
-            Toast.makeText(this, "CHECK12", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "can't open ", Toast.LENGTH_SHORT).show()
         }
     }
 
