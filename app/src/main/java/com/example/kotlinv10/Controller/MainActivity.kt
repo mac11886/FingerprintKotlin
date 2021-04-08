@@ -17,10 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinv10.R
-import com.example.kotlinv10.model.AlertDialog
-import com.example.kotlinv10.model.AllData
-import com.example.kotlinv10.model.ApiObject
-import com.example.kotlinv10.model.DataHolder
+import com.example.kotlinv10.model.*
 import com.zkteco.android.biometric.core.device.ParameterHelper
 import com.zkteco.android.biometric.core.device.TransportType
 import com.zkteco.android.biometric.core.utils.LogHelper
@@ -65,10 +62,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var nameText: TextView
 
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        AppPreferences.init(this)
         initUi()
         setTimeAndDate()
 
@@ -102,14 +101,18 @@ class MainActivity : AppCompatActivity() {
 
         AlertDialog.loadingDialog(this)
 
-        val call = ApiObject.apiObject.getAllData(1)
+        val call = ApiObject.apiObject.getDataUser(AppPreferences.branch_id!!.toInt())
+        Toast.makeText(this@MainActivity,""+AppPreferences.branch_id,Toast.LENGTH_SHORT).show()
+        call.enqueue(object : Callback<List<DataUser>> {
+            override fun onResponse(call: Call<List<DataUser>>, response: Response<List<DataUser>>) {
 
-        call.enqueue(object : Callback<AllData> {
-            override fun onResponse(call: Call<AllData>, response: Response<AllData>) {
-                DataHolder.allData = response.body()
+                DataHolder.allDataUser = response.body()
+                Log.e("dataholder",""+ DataHolder.allDataUser)
             }
 
-            override fun onFailure(call: Call<AllData>, t: Throwable) {
+            override fun onFailure(call: Call<List<DataUser>>, t: Throwable) {
+                Log.e("dataholdererror",""+ DataHolder.allDataUser)
+
             }
 
         })

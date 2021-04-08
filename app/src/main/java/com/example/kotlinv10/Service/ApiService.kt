@@ -2,6 +2,7 @@ package com.example.kotlinv10.Service
 
 import com.example.kotlinv10.model.AllData
 import com.example.kotlinv10.model.Branch
+import com.example.kotlinv10.model.DataUser
 import com.example.kotlinv10.model.DataAdmin
 import retrofit2.Call
 import retrofit2.http.GET
@@ -23,6 +24,8 @@ interface ApiService {
     fun getAllData(@Path("company_id") company: Int): Call<AllData>
 
 
+    @GET("getDataUser/{branch}")
+    fun getDataUser(@Path("branch")branch_id: Int?) : Call<List<DataUser>>
     @POST("login")
     fun login(
         @Query("username") username: String,
@@ -75,14 +78,11 @@ interface ApiService {
 
 
     @POST("saveProfile")
-    fun saveProfile(
-        @Query("user_name") user_name: String,
-        @Query("company_id") company_id: Int?,
-        @Query("branch_id") branch_id: Int?,
-        @Query("first_fingerprint") first_fingerprint: String,
-        @Query("second_fingerprint") second_fingerprint: String
-
-    )
+    fun saveProfile(@Query("user_name") name: String,
+                    @Query("company_id")company_id: Int?,
+                    @Query("branch_id")branch_id: Int?,
+                    @Query("first_fingerprint") first_fingerprint :String,
+                    @Query("second_fingerprint") second_fingerprint : String) :Call<String>
 
     @POST("editProfile")
     fun editProfile(

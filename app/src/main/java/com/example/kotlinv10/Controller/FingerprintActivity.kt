@@ -229,7 +229,7 @@ class FingerprintActivity : AppCompatActivity() {
                                     showText.text = "ลงทะเบียนสำเร็จ"
                                     checkThird.setImageResource(R.drawable.ic_check)
 
-                                    com.example.kotlinv10.model.AlertDialog.confirmDialog(this@FingerprintActivity,applicationContext,strBase64,finger)
+                                    com.example.kotlinv10.model.AlertDialog.confirmDialog(this@FingerprintActivity,applicationContext,strBase64,finger,intent.getStringExtra("name").toString())
                                     Log.e("base64Finger",strBase64)
                                 } else {
                                     showText.text = "ลงทะเบียนไม่สำเร็จ"

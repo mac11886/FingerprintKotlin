@@ -8,6 +8,8 @@ import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinv10.R
+import com.example.kotlinv10.model.DataHolder
+import com.example.kotlinv10.model.DataUser
 import com.example.kotlinv10.model.UserAdapter
 
 class ThirdManageActivity : AppCompatActivity() {
@@ -19,19 +21,26 @@ class ThirdManageActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.user_list)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        var data =DataHolder.allDataUser
 
         var imageList = listOf<Bitmap>()
-        var names = listOf("Mac", "Mac", "Mac", "Mac", "Mac", "Mac", "Mac", "Mac", "Mac", "Mac", "Mac", "Mac")
-        var adapter = UserAdapter(this, imageList, names)
+        var names = listOf("Mac", "Mac", "Mac", "Mac")
 
-        recyclerView.adapter = adapter
-
+        loadAdapter(data!!)
 
 
         addPersonBtn = findViewById(R.id.addPerson)
         addPersonBtn.setOnClickListener {
             Intent(this,EditProfileActivity::class.java).also { intent ->  startActivity(intent)}
         }
+
+
+    }
+
+
+    fun loadAdapter(list: List<DataUser>){
+        val adapter= UserAdapter(this, list)
+        recyclerView.adapter = adapter
 
 
     }
