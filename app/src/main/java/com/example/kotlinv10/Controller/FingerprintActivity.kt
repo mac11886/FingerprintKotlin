@@ -18,6 +18,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.kotlinv10.R
+import com.example.kotlinv10.model.DataHolder
 import com.zkteco.android.biometric.core.device.ParameterHelper
 import com.zkteco.android.biometric.core.device.TransportType
 import com.zkteco.android.biometric.core.utils.LogHelper
@@ -230,6 +231,7 @@ class FingerprintActivity : AppCompatActivity() {
                                     checkThird.setImageResource(R.drawable.ic_check)
 
                                     com.example.kotlinv10.model.AlertDialog.confirmDialog(this@FingerprintActivity,applicationContext,strBase64,finger,intent.getStringExtra("name").toString())
+
                                     Log.e("base64Finger",strBase64)
                                 } else {
                                     showText.text = "ลงทะเบียนไม่สำเร็จ"

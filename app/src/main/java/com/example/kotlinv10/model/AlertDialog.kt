@@ -21,10 +21,9 @@ import retrofit2.Response
 
 object AlertDialog {
     lateinit var dialog: Dialog
-     var fingerprint1 : String = ""
-     var fingerprint2 : String = ""
-    var getName : String = ""
-
+    var fingerprint1: String = ""
+    var fingerprint2: String = ""
+    var getName: String = ""
 
 
     fun loadingDialog(activity: Activity) {
@@ -37,7 +36,13 @@ object AlertDialog {
         dialog.show()
     }
 
-    fun confirmDialog(activity: Activity,context: Context,strBase64: String,whichFinger : String,name : String){
+    fun confirmDialog(
+        activity: Activity,
+        context: Context,
+        strBase64: String,
+        whichFinger: String,
+        name: String
+    ) {
         val builder = AlertDialog.Builder(activity)
         val inflater = activity.layoutInflater.inflate(R.layout.confirm_dialog, null)
         builder.setView(inflater)
@@ -54,6 +59,13 @@ object AlertDialog {
                     intent.putExtra("base64FirstFinger", strBase64)
                     fingerprint1 = strBase64
                     getName = name
+
+                    if (DataHolder.user != null) {
+
+                        DataHolder.user!!.fingerprint.first_fingerprint = strBase64
+                    }
+//                    Log.e("test1", strBase64)
+//                    Log.e("test2", DataHolder.user!!.fingerprint.first_fingerprint)
                     context.startActivity(intent)
                     activity.finish()
                 }
@@ -62,6 +74,11 @@ object AlertDialog {
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     intent.putExtra("base64SecondFinger", strBase64)
                     fingerprint2 = strBase64
+                    if (DataHolder.user != null) {
+
+                        DataHolder.user!!.fingerprint.second_fingerprint = strBase64
+                    }
+
                     context.startActivity(intent)
                     activity.finish()
                 }
@@ -72,19 +89,27 @@ object AlertDialog {
 
     }
 
-    fun confirmEditDialog(activity: Activity,context: Context) {
+    fun confirmEditDialog(activity: Activity, context: Context) {
         val builder = AlertDialog.Builder(activity)
         val inflater = activity.layoutInflater.inflate(R.layout.confirm_dialog, null)
         builder.setView(inflater)
         builder.setCancelable(true)
         dialog = builder.create()
-        Intent(context, ThirdManageActivity::class.java).also { intent ->
-            context.startActivity(intent)
-            activity.finish()
+
+        var confirm = inflater.findViewById<Button>(R.id.confirmBtn)
+
+        confirm.setOnClickListener {
+            Intent(activity.applicationContext, ThirdManageActivity::class.java).also { intent ->
+                activity.startActivity(intent)
+                activity.finish()
+            }
         }
 
+//        Log.e("test", DataHolder.allDataUser.toString())
         dialog.show()
+
     }
+
     @RequiresApi(Build.VERSION_CODES.M)
     fun editCompanyDialog(activity: Activity, companyName: String) {
 
@@ -108,11 +133,12 @@ object AlertDialog {
                 val time: String = timePicker.hour.toString() + ":" + timePicker.minute.toString()
 //                Log.e("test", time)
                 ApiObject.apiObject.setLateTime(AppPreferences.company_id!!.toInt(), time)
-                    .enqueue(object : Callback<String>{
+                    .enqueue(object : Callback<String> {
                         override fun onResponse(call: Call<String>, response: Response<String>) {
-                            if (response.isSuccessful){
+                            if (response.isSuccessful) {
                                 dialog.dismiss()
-                                Toast.makeText(activity, "late time is updated", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(activity, "late time is updated", Toast.LENGTH_SHORT)
+                                    .show()
 
                             } else {
                                 Log.e("debug", response.message())

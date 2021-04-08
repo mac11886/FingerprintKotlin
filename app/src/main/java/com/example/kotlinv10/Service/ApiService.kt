@@ -90,7 +90,7 @@ interface ApiService {
         @Query("user_name") username: String,
         @Query("first_fingerprint") first_fingerprint: String,
         @Query("second_fingerprint") second_fingerprint: String
-    )
+    ) : Call<String>
 
 
 }

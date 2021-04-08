@@ -42,7 +42,7 @@ import java.util.*
 class EditProfileActivity : AppCompatActivity() {
 
 
-//    lateinit var imageProfile: ImageView
+    //    lateinit var imageProfile: ImageView
     lateinit var nameText: EditText
 
     lateinit var imageBtn: Button
@@ -58,10 +58,16 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
         initUi()
-        nameText.setText(""+com.example.kotlinv10.model.AlertDialog.getName)
+
+
+        nameText.setText("" + getName)
+        if (DataHolder.user != null) {
+
+            nameText.setText(DataHolder.user!!.name)
+        }
         submitBtn.setOnClickListener {
             saveProfile()
-            com.example.kotlinv10.model.AlertDialog.confirmEditDialog(this,applicationContext)
+            com.example.kotlinv10.model.AlertDialog.confirmEditDialog(this, applicationContext)
         }
 
 //        imageProfile.setOnClickListener {
@@ -88,10 +94,9 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
 
-
     private fun initUi() {
 //        imageProfile = findViewById(R.id.imageProfile)
-        nameText = findViewById(R.id.inputName)
+        nameText = findViewById(R.id.inputNameEdit)
         submitBtn = findViewById(R.id.submitProfile)
         firstFinger = findViewById(R.id.firstFinger)
         secondFinger = findViewById(R.id.secondFinger)
@@ -112,32 +117,54 @@ class EditProfileActivity : AppCompatActivity() {
         Log.e("name", name)
         Log.e("finger1", finger1)
         Log.e("finger2", finger2)
-        ApiObject.apiObject.saveProfile(name, companyId, branchId, finger1, finger2)
-            .enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
+        if (DataHolder.user == null) {
+
+            ApiObject.apiObject.saveProfile(name, companyId, branchId, finger1, finger2)
+                .enqueue(object : Callback<String> {
+                    override fun onResponse(call: Call<String>, response: Response<String>) {
 //                val dataUser :DataUser? = response.body()
 
-                    Toast.makeText(
-                        this@EditProfileActivity,
-                        "" + response.body().toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    if (response.isSuccessful) {
                         Toast.makeText(
                             this@EditProfileActivity,
-                            "sent complete",
+                            "" + response.body().toString(),
                             Toast.LENGTH_SHORT
                         ).show()
+                        if (response.isSuccessful) {
+                            Toast.makeText(
+                                this@EditProfileActivity,
+                                "sent complete",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        }
 
                     }
 
-                }
+                    override fun onFailure(call: Call<String>, t: Throwable) {
+                        Toast.makeText(
+                            this@EditProfileActivity,
+                            "sent Uncomplete",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                })
+        } else {
+            ApiObject.apiObject.editProfile(DataHolder.user!!.id, name, DataHolder.user!!.fingerprint.first_fingerprint, DataHolder.user!!.fingerprint.second_fingerprint).enqueue(
+                object : Callback<String> {
+                    override fun onResponse(call: Call<String>, response: Response<String>) {
+                        if (response.isSuccessful) {
+                            Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT).show()
+                        }
+                    }
 
-                override fun onFailure(call: Call<String>, t: Throwable) {
-                    Toast.makeText(this@EditProfileActivity, "sent Uncomplete", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            })
+
+                    override fun onFailure(call: Call<String>, t: Throwable) {
+                        Toast.makeText(applicationContext, "fail2", Toast.LENGTH_SHORT).show()
+                    }
+
+                })
+        }
 
     }
 //
