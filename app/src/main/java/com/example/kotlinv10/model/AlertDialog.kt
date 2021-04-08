@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import com.example.kotlinv10.Controller.EditProfileActivity
 import com.example.kotlinv10.Controller.FirstManageActivity
+import com.example.kotlinv10.Controller.ThirdManageActivity
 import com.example.kotlinv10.R
 import org.w3c.dom.Text
 import retrofit2.Call
@@ -71,6 +72,19 @@ object AlertDialog {
 
     }
 
+    fun confirmEditDialog(activity: Activity,context: Context) {
+        val builder = AlertDialog.Builder(activity)
+        val inflater = activity.layoutInflater.inflate(R.layout.confirm_dialog, null)
+        builder.setView(inflater)
+        builder.setCancelable(true)
+        dialog = builder.create()
+        Intent(context, ThirdManageActivity::class.java).also { intent ->
+            context.startActivity(intent)
+            activity.finish()
+        }
+
+        dialog.show()
+    }
     @RequiresApi(Build.VERSION_CODES.M)
     fun editCompanyDialog(activity: Activity, companyName: String) {
 

@@ -33,7 +33,11 @@ class UserAdapter(context: Context, nameUsers: List<DataUser>) :
         holder.imageUserView.setImageResource(R.drawable.ic_profile)
         holder.nameTextView.text = nameUsers[position].name
         holder.cardView.setOnClickListener {
-            Intent(context,EditProfileActivity::class.java).also { intent ->  context.startActivity(intent)}
+            Intent(context,EditProfileActivity::class.java).also { intent ->
+                intent.putExtra("username",nameUsers[position].name)
+                intent.putExtra("firstFinger",nameUsers[position].fingerprint.first_fingerprint)
+                intent.putExtra("secondFinger",nameUsers[position].fingerprint.second_fingerprint)
+                context.startActivity(intent)}
         }
     }
 

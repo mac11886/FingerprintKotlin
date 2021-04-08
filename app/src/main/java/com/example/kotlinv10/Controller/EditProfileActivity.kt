@@ -62,6 +62,7 @@ class EditProfileActivity : AppCompatActivity() {
         nameText.setText(""+getName)
         submitBtn.setOnClickListener {
             saveProfile()
+            com.example.kotlinv10.model.AlertDialog.confirmEditDialog(this,applicationContext)
         }
 
 //        imageProfile.setOnClickListener {
@@ -85,6 +86,15 @@ class EditProfileActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    fun haveUser(){
+        var  name = intent.getStringExtra("username")
+        var first = intent.getStringExtra("firstFinger")
+        var second = intent.getStringExtra("secondFinger")
+        nameText.setText(""+name)
+        first = com.example.kotlinv10.model.AlertDialog.fingerprint1
+        second = com.example.kotlinv10.model.AlertDialog.fingerprint2
     }
 
     private fun initUi() {
