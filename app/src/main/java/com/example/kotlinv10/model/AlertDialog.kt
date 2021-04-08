@@ -5,12 +5,15 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.*
+import androidx.annotation.RequiresApi
 import com.example.kotlinv10.Controller.EditProfileActivity
 import com.example.kotlinv10.Controller.FirstManageActivity
 import com.example.kotlinv10.R
+import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -70,7 +73,8 @@ object AlertDialog {
 
     }
 
-    fun editCompanyDialog(activity: Activity, isEdit: Boolean) {
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun editCompanyDialog(activity: Activity, companyName: String) {
 
 
         val builder = AlertDialog.Builder(activity)
@@ -81,32 +85,34 @@ object AlertDialog {
         dialog = builder.create()
 
         var button = inflater.findViewById<Button>(R.id.buttonCompany)
-        var companyEdit = inflater.findViewById<EditText>(R.id.companyName)
 
         var timePicker: TimePicker = inflater.findViewById(R.id.timePicker)
         timePicker.setIs24HourView(true)
 
-        if (isEdit) {
-            var nameCompany = inflater.findViewById<TextView>(R.id.companyName1)
+//        var nameCompany = inflater.findViewById<TextView>(R.id.companyName1)
 
-            var getCompanyName = nameCompany.text
-            companyEdit.setText(getCompanyName)
-        } else {
-            button.setOnClickListener {
-                if (!isEdit) {
-                    var valid = true
-                    if (companyEdit.text.toString().isNullOrEmpty()) {
-                        companyEdit.error = "Please enter Company name"
-                        valid = false
-                    }
-                    if (valid) {
-                        if (AppPreferences.company_id != "") {
+        button.setOnClickListener {
+            if (AppPreferences.company_id != "") {
+                val time: String = timePicker.hour.toString() + ":" + timePicker.minute.toString()
+//                Log.e("test", time)
+                ApiObject.apiObject.setLateTime(AppPreferences.company_id!!.toInt(), time)
+                    .enqueue(object : Callback<String>{
+                        override fun onResponse(call: Call<String>, response: Response<String>) {
+                            if (response.isSuccessful){
+                                dialog.dismiss()
+                                Toast.makeText(activity, "late time is updated", Toast.LENGTH_SHORT).show()
 
+                            } else {
+                                Log.e("debug", response.message())
+                            }
                         }
 
-                    }
-                }
+                        override fun onFailure(call: Call<String>, t: Throwable) {
+                        }
+
+                    })
             }
+
         }
         dialog.show()
     }

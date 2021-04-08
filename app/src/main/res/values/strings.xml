@@ -7,9 +7,10 @@
     <string name="company">Company</string>
     <string name="username">Username</string>
     <string name="textToSignup">Create a new account</string>
-    <string name="editCompany">Edit Company name</string>
-    <string name="addDepartment">Add Department</string>
+    <string name="setLate">set late time</string>
+    <string name="addBranch">Add Branch</string>
     <string name="progressDialog">Wait a moment..</string>
     <string name="lateAttendance">Choose Late Attendance Time</string>
+    <string name="logout">Logout</string>
 
 </resources>
