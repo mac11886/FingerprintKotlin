@@ -58,7 +58,7 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
         initUi()
-        nameText.setText(""+getName)
+        nameText.setText(""+com.example.kotlinv10.model.AlertDialog.getName)
         submitBtn.setOnClickListener {
             saveProfile()
             com.example.kotlinv10.model.AlertDialog.confirmEditDialog(this,applicationContext)

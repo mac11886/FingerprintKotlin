@@ -72,9 +72,9 @@ interface ApiService {
     @POST("attendance")
     fun saveAttendance(
         @Query("user_id") user_id: Int?,
+        @Query("company_id") company_id: Int?,
         @Query("branch_id") branch_id: Int?,
-        @Query("status") status: String
-    )
+        @Query("status") status: String) :Call<String>
 
 
     @POST("saveProfile")

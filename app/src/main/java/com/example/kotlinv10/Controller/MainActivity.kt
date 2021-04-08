@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var nameText: TextView
     lateinit var showText : TextView
     var userList: List<DataUser>? = null
-
+    lateinit var status: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,10 +128,11 @@ class MainActivity : AppCompatActivity() {
         Log.e("userList", userList.toString())
         checkInBtn.setOnClickListener {
             onBegin()
-//            Toast.makeText(this, userList!![0].name, Toast.LENGTH_SHORT).show()
+            status = "in"
         }
         checkOutBtn.setOnClickListener {
             onBegin()
+            status = "out"
         }
 
 
@@ -372,6 +373,18 @@ class MainActivity : AppCompatActivity() {
                                 showText.text = "threshold " + strRes[1] + "%"
 //                                Toast.makeText(applicationContext, strRes[0].toInt().toString(), Toast.LENGTH_SHORT).show()
                                 nameText.text = userList!![strRes[0].toInt()].name
+
+                                var id = userList!![strRes[0].toInt()].id
+                                var companyId = userList!![strRes[0].toInt()].company_id
+                                var branchId = userList!![strRes[0].toInt()].branch_id
+                                if (status == "in"){
+                                    attendance(id,companyId,branchId, status)
+                                    onBnStop()
+                                }else{
+                                    attendance(id,companyId,branchId, status)
+                                    onBnStop()
+                                }
+
                             } else {
                                 //identify failed
                                 Toast.makeText(
@@ -379,6 +392,8 @@ class MainActivity : AppCompatActivity() {
                                     "identity failed",
                                     Toast.LENGTH_SHORT
                                 ).show()
+
+
                             }
                             //Base 64 Template
 //                            var strBase64 = encodeToString1(p0, fingerprintSensor!!.lastTempLen)
@@ -407,7 +422,7 @@ class MainActivity : AppCompatActivity() {
         try {
             if (bstart) {
                 //stop capture
-                fingerprintSensor?.startCapture(0)
+                fingerprintSensor?.stopCapture(0)
                 bstart = false
                 fingerprintSensor?.close(0)
                 Toast.makeText(this, "CLOSE SCANNER", Toast.LENGTH_SHORT).show()
@@ -420,23 +435,19 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun onBnEnroll() {
-        if (bstart) {
-            isRegister = true
-            enrollidx = 0
-            Toast.makeText(this, "Press 3 time enroll", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Begin First", Toast.LENGTH_SHORT).show()
-        }
-    }
+    fun attendance(id: Int,companyId : Int,branchId :Int,status:String){
+        ApiObject.apiObject.saveAttendance(id,companyId,branchId,status).enqueue(object :Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                Toast.makeText(this@MainActivity," send data success",Toast.LENGTH_SHORT).show()
+            }
 
-    fun onBnVerify() {
-        if (bstart) {
-            isRegister = false
-            enrollidx = 0
-        } else {
-            Toast.makeText(this, "Begin first", Toast.LENGTH_SHORT).show()
-        }
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Toast.makeText(this@MainActivity,"can't send data",Toast.LENGTH_SHORT).show()
+            }
+        })
 
     }
+
+
+
 }
