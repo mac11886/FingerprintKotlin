@@ -72,6 +72,12 @@ class MainActivity : AppCompatActivity() {
         initUi()
         setTimeAndDate()
 
+//        val intStr = "09"
+//
+//        val intInt = intStr.toInt()
+//
+//        Toast.makeText(this, intInt.toString(), Toast.LENGTH_SHORT).show()
+
         // set ID of Activity
         var helloText = findViewById<TextView>(R.id.helloText)
         var testText = findViewById<TextView>(R.id.textTest)
@@ -122,6 +128,7 @@ class MainActivity : AppCompatActivity() {
         Log.e("userList", userList.toString())
         checkInBtn.setOnClickListener {
             onBegin()
+//            Toast.makeText(this, userList!![0].name, Toast.LENGTH_SHORT).show()
         }
         checkOutBtn.setOnClickListener {
             onBegin()
@@ -238,8 +245,8 @@ class MainActivity : AppCompatActivity() {
                             if (user.fingerprint != null) {
                                 var fingerByte1 = Base64.decode(user.fingerprint.first_fingerprint, Base64.NO_WRAP)
                                 var fingerByte2 = Base64.decode(user.fingerprint.second_fingerprint, Base64.NO_WRAP)
-                                ZKFingerService.save(fingerByte1, " " + user.id)
-                                ZKFingerService.save(fingerByte2, "0" + user.id)
+                                ZKFingerService.save(fingerByte1, "$i")
+                                ZKFingerService.save(fingerByte2, "0$i")
                                 //save finger
                                 Toast.makeText(
                                     this@MainActivity,
@@ -356,14 +363,15 @@ class MainActivity : AppCompatActivity() {
                             var ret = ZKFingerService.identify(p0, bufids, 55, 1)
                             if (ret > 0) {
                                 var strRes = String(bufids).split("\t")
-                                Toast.makeText(
-                                    applicationContext,
-                                    "identity",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+//                                Toast.makeText(
+//                                    applicationContext,
+//                                    "identity",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
                                 //identify
                                 showText.text = "threshold " + strRes[1] + "%"
-                                nameText.text = getUser(strRes[0].toInt()).name
+//                                Toast.makeText(applicationContext, strRes[0].toInt().toString(), Toast.LENGTH_SHORT).show()
+                                nameText.text = userList!![strRes[0].toInt()].name
                             } else {
                                 //identify failed
                                 Toast.makeText(
