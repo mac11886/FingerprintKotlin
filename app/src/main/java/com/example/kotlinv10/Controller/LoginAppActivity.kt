@@ -32,6 +32,23 @@ class LoginAppActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login_app)
         AppPreferences.init(applicationContext)
 
+        if (AppPreferences.branch_id != ""){
+            when (AppPreferences.branch_id!!.toInt()){
+                0 -> {
+                    Intent(this, FirstManageActivity::class.java).also {
+                        finish()
+                        startActivity(it)
+                    }
+                }
+                else -> {
+                    Intent(this, MainActivity::class.java).also{
+                        finish()
+                        startActivity(it)
+                    }
+                }
+            }
+        }
+
         usernameText = findViewById(R.id.inputEmail)
         passwordText = findViewById(R.id.inputPassword)
         loginBtn = findViewById(R.id.loginBtn)

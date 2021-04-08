@@ -50,10 +50,10 @@ interface ApiService {
         @Query("admin_id") admin_id: Int?
     ): Call<String>
 
-    @POST("editCompany")
-    fun editCompany(
+    @POST("setLateTime")
+    fun setLateTime(
         @Query("company_id") company_id: Int?,
-        @Query("company_name") company: String
+        @Query("time") time: String
     ): Call<String>
 
 
