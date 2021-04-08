@@ -38,7 +38,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageProfile">
 
             <EditText
-                android:id="@+id/inputName"
+                android:id="@+id/inputNameEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

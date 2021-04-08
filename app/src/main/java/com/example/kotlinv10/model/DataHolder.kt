@@ -17,4 +17,9 @@ object DataHolder {
         set(value) {
             field = value
         }
+    var user : DataUser? = null
+        get() = field
+        set(value) {
+            field = value
+        }
 }

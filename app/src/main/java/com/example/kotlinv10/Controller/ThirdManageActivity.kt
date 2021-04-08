@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,9 +23,10 @@ class ThirdManageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_third_manage)
 
+//        Log.e("error",DataHolder.allDataUser.toString())
         recyclerView = findViewById(R.id.user_list)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        var data =DataHolder.allDataUser
+        var data = DataHolder.allDataUser
 
         var imageList = listOf<Bitmap>()
         var names = listOf("Mac", "Mac", "Mac", "Mac")
@@ -36,6 +38,7 @@ class ThirdManageActivity : AppCompatActivity() {
         branchName.text = name
         addPersonBtn = findViewById(R.id.addPerson)
         addPersonBtn.setOnClickListener {
+            DataHolder.user = null
             Intent(this,EditProfileActivity::class.java).also { intent ->  startActivity(intent)}
         }
 
