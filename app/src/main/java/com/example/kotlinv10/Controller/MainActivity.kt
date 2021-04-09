@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var imageView: ImageView
 
 
-    lateinit var textTest: TextView
+    lateinit var testText: TextView
     lateinit var timeText: TextView
     lateinit var dateText: TextView
     lateinit var helloText: TextView
@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var showText : TextView
     var userList: List<DataUser>? = null
     lateinit var status: String
+    private lateinit var logoutButton : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,12 +78,17 @@ class MainActivity : AppCompatActivity() {
 //        val intInt = intStr.toInt()
 //
 //        Toast.makeText(this, intInt.toString(), Toast.LENGTH_SHORT).show()
+        logoutButton.setOnClickListener {
+            AppPreferences.company_id = ""
+            AppPreferences.branch_id = ""
 
-        // set ID of Activity
-        var helloText = findViewById<TextView>(R.id.helloText)
-        var testText = findViewById<TextView>(R.id.textTest)
+            Intent(this, LoginAppActivity::class.java).also {
+                finish()
+                startActivity(it)
+            }
+        }
 
-        imageView = findViewById(R.id.imageView)
+
 //        imageView.setImageResource(R.drawable.ic_attendance)
 
         testText.setOnClickListener {
@@ -171,6 +177,8 @@ class MainActivity : AppCompatActivity() {
         dateText = findViewById(R.id.dateTextView)
         showText = findViewById(R.id.showText)
         nameText = findViewById(R.id.nameUser)
+        logoutButton = findViewById(R.id.logoutMain)
+        testText = findViewById(R.id.textTest)
     }
 
     private val mUsbReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -302,7 +310,7 @@ class MainActivity : AppCompatActivity() {
                             var bitmapImageFingerprint =
                                 ToolUtils.renderCroppedGreyScaleBitmap(p0, imageWidth, imageHeight)
                             //set image
-                            imageView.setImageResource(R.drawable.ic_attendance)
+//                            imageView.setImageResource(R.drawable.ic_attendance)
 
                         }
                     }
@@ -370,13 +378,15 @@ class MainActivity : AppCompatActivity() {
 //                                    Toast.LENGTH_SHORT
 //                                ).show()
                                 //identify
-                                showText.text = "threshold " + strRes[1] + "%"
+//                                showText.text = "threshold " + strRes[1] + "%"
 //                                Toast.makeText(applicationContext, strRes[0].toInt().toString(), Toast.LENGTH_SHORT).show()
-                                nameText.text = userList!![strRes[0].toInt()].name
+//                                nameText.text = userList!![strRes[0].toInt()].name
 
                                 var id = userList!![strRes[0].toInt()].id
                                 var companyId = userList!![strRes[0].toInt()].company_id
                                 var branchId = userList!![strRes[0].toInt()].branch_id
+//                                    AlertDialog.test(this@MainActivity)
+                                AlertDialog.scanSuccessDialog(this@MainActivity, userList!![strRes[0].toInt()].name.toString(), "threshold " + strRes[1] + "%" . toString())
                                 if (status == "in"){
                                     attendance(id,companyId,branchId, status)
                                     onBnStop()

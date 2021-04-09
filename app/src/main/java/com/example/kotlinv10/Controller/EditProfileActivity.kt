@@ -167,7 +167,13 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
     }
-//
+
+
+
+
+
+//      Camera
+    //--------------------------------------------------------------------------------------------------------------------------
 //    @RequiresApi(Build.VERSION_CODES.N)
 //    fun takeImage() {
 //        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->

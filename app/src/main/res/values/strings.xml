@@ -12,5 +12,8 @@
     <string name="progressDialog">Wait a moment..</string>
     <string name="lateAttendance">Choose Late Attendance Time</string>
     <string name="logout">Logout</string>
+    <string name="branch">Branch</string>
+    <string name="unsuccess_please_try_again">Unsuccess,Please try again.</string>
+    
 
 </resources>

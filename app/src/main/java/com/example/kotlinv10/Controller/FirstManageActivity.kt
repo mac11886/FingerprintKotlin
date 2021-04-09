@@ -40,6 +40,7 @@ class FirstManageActivity : AppCompatActivity() {
         logoutButton = findViewById(R.id.firstLogout)
         companyName.text = ""
         AppPreferences.init(this)
+        //delete token in mobile
         logoutButton.setOnClickListener {
             AppPreferences.company_id = ""
             AppPreferences.branch_id = ""

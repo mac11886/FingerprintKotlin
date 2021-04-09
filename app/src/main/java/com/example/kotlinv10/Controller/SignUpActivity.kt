@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinv10.R
 import com.example.kotlinv10.Service.ApiService
@@ -75,6 +76,10 @@ class SignUpActivity : AppCompatActivity() {
         call.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 Log.e("Succuess", response.body().toString())
+                Toast.makeText(this@SignUpActivity,"Signup success",Toast.LENGTH_SHORT).show()
+                Intent(this@SignUpActivity,LoginAppActivity::class.java).also { intent ->
+                    startActivity(intent)
+                }
             }
 
             override fun onFailure(call: Call<String>, t: Throwable) {

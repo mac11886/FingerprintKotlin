@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.widget.*
 import androidx.annotation.RequiresApi
 import com.example.kotlinv10.Controller.EditProfileActivity
+import com.example.kotlinv10.Controller.FingerprintActivity
 import com.example.kotlinv10.Controller.FirstManageActivity
 import com.example.kotlinv10.Controller.ThirdManageActivity
 import com.example.kotlinv10.R
@@ -36,6 +37,52 @@ object AlertDialog {
         dialog.show()
     }
 
+
+
+
+    fun scanSuccessDialog(activity: Activity, nameText: String, thresholdText: String) {
+        val builder = AlertDialog.Builder(activity)
+        val inflater = activity.layoutInflater.inflate(R.layout.scan_success, null)
+        builder.setCancelable(true)
+        builder.setView(inflater)
+        dialog = builder.create()
+        dialog.show()
+        var name = inflater.findViewById<TextView>(R.id.nameDialog)
+        var threshold = inflater.findViewById<TextView>(R.id.thresholdDialog)
+        var confirm = inflater.findViewById<Button>(R.id.confirmDialog)
+        name.text = nameText
+        threshold.text = thresholdText
+        confirm.setOnClickListener {
+            dialog.dismiss()
+        }
+
+
+    }
+
+    fun scanRegisErrorDialog(activity: FingerprintActivity) {
+        val builder = AlertDialog.Builder(activity)
+        val inflater = activity.layoutInflater.inflate(R.layout.scan_again, null)
+        builder.setCancelable(false)
+        builder.setView(inflater)
+        dialog = builder.create()
+        dialog.show()
+        var confirm = inflater.findViewById<Button>(R.id.confirmBtn)
+        var cancel = inflater.findViewById<Button>(R.id.cancelBtn)
+
+        cancel.setOnClickListener {
+            Intent(activity.applicationContext, EditProfileActivity::class.java).also { intent ->
+                activity.startActivity(intent)
+                activity.onBnStop()
+                dialog.dismiss()
+            }
+            confirm.setOnClickListener {
+                activity.onBegin()
+                dialog.dismiss()
+            }
+        }
+
+    }
+
     fun confirmDialog(
         activity: Activity,
         context: Context,
@@ -50,7 +97,6 @@ object AlertDialog {
         dialog = builder.create()
 
         var button = inflater.findViewById<Button>(R.id.confirmBtn)
-        dialog = builder.create()
         dialog.show()
         button.setOnClickListener {
             if (whichFinger == "First Finger") {
@@ -64,8 +110,7 @@ object AlertDialog {
 
                         DataHolder.user!!.fingerprint.first_fingerprint = strBase64
                     }
-//                    Log.e("test1", strBase64)
-//                    Log.e("test2", DataHolder.user!!.fingerprint.first_fingerprint)
+
                     context.startActivity(intent)
                     activity.finish()
                 }
@@ -104,8 +149,6 @@ object AlertDialog {
                 activity.finish()
             }
         }
-
-//        Log.e("test", DataHolder.allDataUser.toString())
         dialog.show()
 
     }

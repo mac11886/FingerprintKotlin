@@ -1,5 +1,6 @@
 package com.example.kotlinv10.Controller
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -177,6 +178,7 @@ class FingerprintActivity : AppCompatActivity() {
                     }
                 }
 
+                @SuppressLint("SetTextI18n")
                 override fun extractOK(p0: ByteArray?) {
                     runOnUiThread {
                         if (isRegister) {
@@ -198,7 +200,7 @@ class FingerprintActivity : AppCompatActivity() {
                                         "press same finger 1",
                                         Toast.LENGTH_SHORT
                                     ).show()
-
+                                    showText.text = "Place your fingers the same all three times."
                                 }
                                 if (enrollidx == 2) {
                                     Toast.makeText(
@@ -206,9 +208,10 @@ class FingerprintActivity : AppCompatActivity() {
                                         "press same finger 2",
                                         Toast.LENGTH_SHORT
                                     ).show()
+                                    showText.text = "Place your fingers the same all three times."
                                 }
 
-                                showText.text = "แสกนให้เหมือนกันทั้ง 3 ครั้ง"
+                                showText.text = "Place your fingers the same all three times."
                                 return@runOnUiThread
                             }
                             System.arraycopy(p0, 0, regtemparray[enrollidx], 0, 2048)
@@ -227,14 +230,15 @@ class FingerprintActivity : AppCompatActivity() {
                                     strBase64 =
                                         Base64.encodeToString(regTemp, 0, ret, Base64.NO_WRAP)
                                     //enroll success
-                                    showText.text = "ลงทะเบียนสำเร็จ"
+                                    showText.text = "Scan Success"
                                     checkThird.setImageResource(R.drawable.ic_check)
 
                                     com.example.kotlinv10.model.AlertDialog.confirmDialog(this@FingerprintActivity,applicationContext,strBase64,finger,intent.getStringExtra("name").toString())
 
                                     Log.e("base64Finger",strBase64)
                                 } else {
-                                    showText.text = "ลงทะเบียนไม่สำเร็จ"
+                                    showText.text = "scan unsuccess, please try again."
+                                    com.example.kotlinv10.model.AlertDialog.scanRegisErrorDialog(this@FingerprintActivity)
                                     //enroll failed
                                 }
                                 isRegister = false
@@ -258,11 +262,11 @@ class FingerprintActivity : AppCompatActivity() {
                             var ret = ZKFingerService.identify(p0, bufids, 55, 1)
                             if (ret > 0) {
                                 var strRes = String(bufids).split("\t")
-                                Toast.makeText(
-                                    applicationContext,
-                                    "",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+//                                Toast.makeText(
+//                                    applicationContext,
+//                                    "",
+//                                    Toast.LENGTH_SHORT
+//                                ).show()
                                 //identify
                             } else {
                                 //identify failed
@@ -283,9 +287,9 @@ class FingerprintActivity : AppCompatActivity() {
             fingerprintSensor!!.setFingerprintCaptureListener(0, listener)
             fingerprintSensor!!.startCapture(0)
             bstart = true
-            showText.text = "วางนิ้วบนที่สแกน"
+            showText.text = "Place finger at Scanner"
         } catch (e: Exception) {
-            Toast.makeText(this, "CHECK12", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please connect Device", Toast.LENGTH_SHORT).show()
         }
     }
 
