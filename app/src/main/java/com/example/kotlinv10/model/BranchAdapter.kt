@@ -2,6 +2,7 @@ package com.example.kotlinv10.model
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinv10.R
 
 
-class BranchAdapter(context: Context, admins: List<DataAdmin>):
+class BranchAdapter(context: Context, admins: List<DataAdmin>) :
     RecyclerView.Adapter<BranchAdapter.ViewHolder>() {
 
     var context = context
     var admins = admins
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var branchText: TextView = itemView.findViewById(R.id.branchName)
         var adminText: TextView = itemView.findViewById(R.id.adminName)
@@ -28,11 +30,19 @@ class BranchAdapter(context: Context, admins: List<DataAdmin>):
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.adminText.text = admins[position].name
-        holder.branchText.text = admins[position].branch.name
-        holder.cardView.setOnClickListener{
-            AlertDialog.inputDialog(context as Activity, true, admins[position], )
+        if (admins[position].branch_id != 0) {
+
+            holder.adminText.text = admins[position].name
+            try {
+                holder.branchText.text = admins[position].branch.name
+            } catch (e: Exception) {
+                Log.e("BranchName", "null")
+            }
+            holder.cardView.setOnClickListener {
+                AlertDialog.inputDialog(context as Activity, true, admins[position])
+            }
         }
+
     }
 
     override fun getItemCount(): Int {

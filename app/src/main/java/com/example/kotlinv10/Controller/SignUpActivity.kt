@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.kotlinv10.R
 import com.example.kotlinv10.Service.ApiService
 import com.example.kotlinv10.model.ApiObject
+import com.example.kotlinv10.model.DataHolder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class SignUpActivity : AppCompatActivity() {
     lateinit var companyText: EditText
     lateinit var nameText: EditText
-    lateinit var emailText: EditText
+    lateinit var userNameText: EditText
     lateinit var passwordText: EditText
     lateinit var secondPasswordText: EditText
     lateinit var signUp: Button
@@ -47,7 +48,7 @@ class SignUpActivity : AppCompatActivity() {
     fun initUi() {
         companyText = findViewById(R.id.inputCompanySignUp)
         nameText = findViewById(R.id.inputNameSignUp)
-        emailText = findViewById(R.id.inputEmailSignUp)
+        userNameText = findViewById(R.id.inputEmailSignUp)
         passwordText = findViewById(R.id.inputPasswordSignUp)
         secondPasswordText = findViewById(R.id.inputRePasswordSignUp)
         signUp = findViewById(R.id.signUpBtn)
@@ -68,7 +69,7 @@ class SignUpActivity : AppCompatActivity() {
         }
         var company: String = companyText.text.toString()
         var name: String = nameText.text.toString()
-        var email: String = emailText.text.toString()
+        var email: String = userNameText.text.toString()
         var password: String = passwordText.text.toString()
 
         val call = ApiObject.apiObject.signUp(name, email, password, company)
@@ -104,30 +105,35 @@ class SignUpActivity : AppCompatActivity() {
 
         var company: String = companyText.text.toString()
         var name: String = nameText.text.toString()
-        var email: String = emailText.text.toString()
+        var userName : String = userNameText.text.toString()
         var password: String = passwordText.text.toString()
         var rePassword: String = secondPasswordText.text.toString()
 
+//        var dataUsernameValid  = DataHolder.allData!!.dataAdmin[0].username
 
         if (company.isNullOrEmpty() || company.length < 3) {
-            companyText.error = "ใส่ชื่อบริษัทอย่างน้อย 3 ตัว "
+            companyText.error = "Enter at least 3 characters."
             valid = false
         } else {
             companyText.error = null
         }
         if (name.isEmpty() || name.length < 3) {
-            nameText.error = "ใส่อย่างน้อย 3 ตัวอักษร"
+            nameText.error = "Enter at least 3 characters."
             valid = false
         } else {
             nameText.error = null
         }
 
-        if (email.isNullOrEmpty()
-        ) {
-            emailText.error = "กรอก username ไม่ถูกต้อง"
+        if (userName.isNullOrEmpty() ) {
+            userNameText.error = "input your username"
             valid = false
-        } else {
-            emailText.error = null
+        }
+//        else if(userName == dataUsernameValid){
+//            userNameText.error = "Username already exists, please enter a new one."
+//            valid = false
+//        }
+        else {
+            userNameText.error = null
         }
 
         if (password.isNullOrEmpty() || password.length < 4 || password.length > 10) {

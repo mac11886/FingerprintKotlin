@@ -85,7 +85,10 @@ class FirstManageActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun loadAdapter(list: List<DataAdmin>) {
-        val adapter = BranchAdapter(this, list)
+        val start = 1
+        var end = list.size
+        var subarray = list.subList(start,end)
+        val adapter = BranchAdapter(this, subarray)
         recyclerView.adapter = adapter
         editbutton = findViewById(R.id.button2)
         companyButton = findViewById(R.id.companyButton)
